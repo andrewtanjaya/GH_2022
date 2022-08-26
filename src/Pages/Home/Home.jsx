@@ -48,6 +48,8 @@ export default function Home() {
 					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 				/>
 				<LocationMarker />
+
+				{/* loop data user then add marker */}
 				<AddMarker
 					description={'testing'}
 					position={{
