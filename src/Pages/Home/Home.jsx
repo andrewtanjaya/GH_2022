@@ -1,6 +1,11 @@
 import React from 'react';
 import './Home.scss';
+import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
 export default function Home() {
-	return <div>This is Home Page</div>;
+	return (
+		<div>
+			<SignOutBtn />
+		</div>
+	);
 }
