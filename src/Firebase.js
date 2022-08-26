@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore } from '@firebase/firestore';
 import { getMessaging, onMessage, getToken} from "firebase/messaging";
 
@@ -21,6 +22,19 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+
+export const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+export const signInWithGoogle = () => {
+	signInWithPopup(auth, provider)
+		.then((result) => {
+			console.log(result);
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+};
 
 export const db = getFirestore(app);
 
