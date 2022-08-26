@@ -1,7 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.scss';
+import { useMapEvents, useMap } from 'react-leaflet/hooks';
+
+import { Icon } from 'leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+
 import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
-import { auth, db, eventRef, fetchToken, onMessageListener, usersRef } from '../../Firebase';
+
+import AddMarker from '../../Utils/AddMarker';
+
+import GetCurrentLocation from '../../Utils/GetCurrentPosition';
+
+import {
+	auth,
+	db,
+	eventRef,
+	fetchToken,
+	onMessageListener,
+	usersRef,
+} from '../../Firebase';
 import { PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from '../../Constants';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { collection, orderBy, query, where } from 'firebase/firestore';
@@ -10,6 +27,24 @@ import SOSBtn from '../../Components/SOSBtn/SOSBtn';
 import { Event } from '../../Model/Event';
 import EventMarker from '../../Components/EventMarker/EventMarker';
 
+function LocationMarker() {
+	const [position, setPosition] = useState(null);
+	const map = useMapEvents({
+		click() {
+			map.locate();
+		},
+		locationfound(e) {
+			setPosition(e.latlng);
+			map.flyTo(e.latlng, map.getZoom());
+
+			// bisa dipasang UPDATE current user location (lat, ltg)
+		},
+	});
+
+	const description = 'You are here';
+	return <AddMarker description={description} position={position} />;
+}
+
 export default function Home() {
 	const [mode, setMode] = useState(PAGE_MODE_ONLINE);
 	const [googleUser, loadingAuth] = useAuthState(auth);
@@ -17,28 +52,41 @@ export default function Home() {
 	const [notification, setNotification] = useState({ title: '', body: '' });
 	const [show, setShow] = useState(false);
 	const [deviceTokens, setDeviceTokens] = useState([]);
-	const [cachedUser, setCachedUser] = useState({})
+	const [cachedUser, setCachedUser] = useState({});
 
-	const [ mockEvent, setMockEvent] = useState(new Event(sessionStorage.getItem("uid"), "SOS", "SOS nih butuh bantuan!", 0,0,[]))
+	const [mockEvent, setMockEvent] = useState(
+		new Event(
+			sessionStorage.getItem('uid'),
+			'SOS',
+			'SOS nih butuh bantuan!',
+			0,
+			0,
+			[]
+		)
+	);
 	// TODO
 	// !! cache fetched user here !!
 	// get user [logged in user] from db, if success set data to LocalStorage + set to Online Mode
 	// if failed, get data from localstorage and set data to state + set to Offline Mode
 
-	const q = query(usersRef, where("uid", "==",sessionStorage.getItem("uid")));
-	const [currentUser, loading, error] = useCollectionData(q, {idField: 'uid'})
-	const [events, loadingEvents, errorEvents] = useCollectionData(eventRef, {idField: 'uid'})
+	const q = query(usersRef, where('uid', '==', sessionStorage.getItem('uid')));
+	const [currentUser, loading, error] = useCollectionData(q, {
+		idField: 'uid',
+	});
+	const [events, loadingEvents, errorEvents] = useCollectionData(eventRef, {
+		idField: 'uid',
+	});
 
-	useEffect(()=>{
-		if(error) {
-			setMode(PAGE_MODE_OFFLINE)
-			setCachedUser(localStorage.getItem("users"))
+	useEffect(() => {
+		if (error) {
+			setMode(PAGE_MODE_OFFLINE);
+			setCachedUser(localStorage.getItem('users'));
 		}
-	}, [error])
+	}, [error]);
 
-	useEffect(()=>{
-		if(currentUser) localStorage.setItem("user", currentUser)
-	}, [currentUser])
+	useEffect(() => {
+		if (currentUser) localStorage.setItem('user', currentUser);
+	}, [currentUser]);
 
 	onMessageListener()
 		.then((payload) => {
@@ -91,22 +139,51 @@ export default function Home() {
 				<p>Notif Title : {notification.title}</p>
 				<p>Notif Body : {notification.body}</p>
 			</div>
-			{
-				loading ? <pre>loading please wait...</pre> : error ? <pre>{cachedUser}</pre> : <pre>{JSON.stringify(currentUser)}</pre>
-			}
-			
+			{loading ? (
+				<pre>loading please wait...</pre>
+			) : error ? (
+				<pre>{cachedUser}</pre>
+			) : (
+				<pre>{JSON.stringify(currentUser)}</pre>
+			)}
+
 			<button onClick={sendPush}>Send Notif</button>
 
-			<SOSBtn myEvent={mockEvent}/>
+			<SOSBtn myEvent={mockEvent} />
 			<SignOutBtn currentUser={currentUser} />
 
-			{
-				loadingEvents ? <pre>loading Event please wait...</pre> : events.map((event)=>{
-					return (
-						event ? <EventMarker key={event.uid} ev={event}/> : <></>
-					)
+			{loadingEvents ? (
+				<pre>loading Event please wait...</pre>
+			) : (
+				events.map((event) => {
+					return event ? <EventMarker key={event.uid} ev={event} /> : <></>;
 				})
-			}
+			)}
+
+			<MapContainer
+				id='map'
+				center={[-6.17511, 106.865036]}
+				zoom={13}
+				scrollWheelZoom={false}
+			>
+				<TileLayer
+					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+					url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+				/>
+				<LocationMarker />
+
+				{/* loop data user then add marker */}
+				<AddMarker
+					description={'testing'}
+					position={{
+						lat: -6.27651,
+						lng: 106.890108,
+					}}
+				/>
+			</MapContainer>
+
+			<SignOutBtn />
+			<button onClick={GetCurrentLocation}>Get Current Location</button>
 		</div>
 	);
 }
