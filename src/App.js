@@ -1,24 +1,24 @@
 import './App.css';
 import { auth, signInWithGoogle } from './Firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from './Pages/Login/Login';
+import Home from './Pages/Home/Home';
 
 function App() {
 	const [user] = useAuthState(auth);
 
 	return (
-		<div className='App'>
-			<section>{user ? <SignOut /> : <SignIn />}</section>
-		</div>
-	);
-}
-
-function SignIn() {
-	return <button onClick={signInWithGoogle}>Sign in with Google</button>;
-}
-
-function SignOut() {
-	return (
-		auth.currentUser && <button onClick={() => auth.signOut()}>Sign Out</button>
+		<>
+			<section>
+				{user ? <Navigate to='/' replace /> : <Navigate to='/login' replace />}
+			</section>
+			<Routes>
+				<Route path='/' element={<Home />} />
+				<Route path='/login' element={<Login />} />
+			</Routes>
+		</>
 	);
 }
 
