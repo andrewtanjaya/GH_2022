@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getFirestore } from '@firebase/firestore';
+import { getFirestore , collection} from '@firebase/firestore';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import { addUser, getUserByUID } from './Database';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,7 +30,11 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
 	signInWithPopup(auth, provider)
 		.then((result) => {
-			console.log(result);
+			sessionStorage.setItem("uid", result.user.uid)
+			getUserByUID(result.user.uid).then((userById)=>{
+				if(userById === null || userById === {}) addUser(result.user,sessionStorage.getItem("token"))
+			})
+			
 		})
 		.catch((error) => {
 			console.log(error);
@@ -45,24 +50,26 @@ export const onMessageListener = () =>
 		});
 	});
 
-export const fetchToken = (setTokenFound, setToken) => {
+export const fetchToken = () => {
 	return getToken(messaging, {
 		vapidKey: process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_PAIR,
 	})
 		.then((currentToken) => {
 			if (currentToken) {
 				console.log('current token for client: ', currentToken);
-				setTokenFound(true);
-				setToken(currentToken);
+				sessionStorage.setItem("token", currentToken)
+				console.log("session token " + sessionStorage.getItem("token"))
 			} else {
 				console.log(
 					'No registration token available. Request permission to generate one.'
 				);
-				setTokenFound(false);
-				setToken('');
+				
 			}
 		})
 		.catch((err) => {
 			console.log('An error occurred while retrieving token. ', err);
 		});
 };
+
+export const usersRef = collection(db,"users")
+export const eventRef = collection(db,"events")
