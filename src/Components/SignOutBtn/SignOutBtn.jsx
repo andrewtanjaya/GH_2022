@@ -1,7 +1,13 @@
+import { updateToken } from '../../Database';
 import { auth } from '../../Firebase';
 
-export default function SignOutBtn() {
+export default function SignOutBtn({currentUser}) {
+	const signOut = () =>{
+		updateToken("",currentUser)
+		sessionStorage.removeItem("token", currentUser)
+		auth.signOut()
+	}
 	return (
-		auth.currentUser && <button onClick={() => auth.signOut()}>Sign Out</button>
+		auth.currentUser && <button onClick={signOut}>Sign Out</button>
 	);
 }
