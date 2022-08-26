@@ -1,4 +1,4 @@
-import { auth } from './Firebase';
+import { auth } from '../../Firebase';
 
 export default function SignOutBtn() {
 	return (

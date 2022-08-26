@@ -8,9 +8,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Pages/Login/Login';
 import Home from './Pages/Home/Home';
 import { fetchToken, onMessageListener } from './Firebase';
+import SignInBtn from './Components/SignInBtn/SignInBtn';
 
 function App() {
-	const [user] = useAuthState(auth);
+	const [user, loading, error] = useAuthState(auth);
 	const [mode, setMode] = useState(PAGE_MODE_ONLINE);
 
 	// TODO
@@ -25,7 +26,7 @@ function App() {
 		fetchToken(setTokenFound, setToken);
 		setDeviceTokens([
 			'foKieJh02IxOkhNbdpXQlo:APA91bE1ngY3u29x45fG2t1uqfA7rJTKEI5SzJB1Rx2A77sSK6LBeuSmw33RpzNHNRkhr6oTUmHNk6Sn-MJ05_BIE17o0sV6i3fZY5_qhs3McGixU-_m-jE20DPvWZPUQ9byXo0yz3In',
-			'fGZS8g3nLWdtdH8tJNnvc2:APA91bFSrOPkvt2JdEWCsK8EdvEjjqlP6HY1743MXKTO5OmnQyi3yUX9L4lHayfuyiCdPilAwFaev1Efgl-QracJnL3YNWXvQoJZoetCpfAH7ZOI_9EXjzv-Oddx_wlzwwbuyh2wIOzq',
+			'fZX5TdVelcYyopruNl2QWW:APA91bE_MeSozWq1_a9yGkM42K50I3wl89xsgyhSUjJ2p7bxqhMYOOMRRT0_ZC-8gY2oqUMe98ac7englBMKxYec9nYlkRPdYLUwkCnGfuIkkgJS_Q3QScX9MmbO-bqtl1MfGbb5Psno',
 		]);
 	}, []);
 
@@ -90,13 +91,16 @@ function App() {
 			</div>
 
 			<button onClick={sendPush}>Send Notif</button>
-			<section>
-				{user ? <Navigate to='/' replace /> : <Navigate to='/login' replace />}
-			</section>
-			<Routes>
+			{loading ? (
+				<div>Is loading...</div>
+			) : (
+				<section>{user ? <Home /> : <Login />}</section>
+			)}
+
+			{/* <Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/login' element={<Login />} />
-			</Routes>
+			</Routes> */}
 		</>
 	);
 }
