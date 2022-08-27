@@ -1,7 +1,6 @@
 import { divIcon } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-
 import './UserMarkerIcon.scss';
 
 export default function UserMarkerIcon({ url }) {
@@ -13,6 +12,7 @@ export default function UserMarkerIcon({ url }) {
           src={url}
           className="marker-user-icon-img"
           referrerPolicy="no-referrer"
+          alt="user"
         />
       </div>,
     );

@@ -5,6 +5,10 @@ import { deleteEvent, updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
+// function MarkerIcon() {
+//   return
+// }
+
 export default function AddMarker({ event, position, user }) {
   /*
 	description: string
@@ -14,14 +18,14 @@ export default function AddMarker({ event, position, user }) {
 	 }
 	*/
 
-	const dismissEvent = () =>{
-		const currentUid = sessionStorage.getItem('uid');
-		if(currentUid === event.uid){
-			deleteEvent(currentUid)
-		}else{
-			alert("Cannot dismiss others event")
-		}
-	}
+  const dismissEvent = () => {
+    const currentUid = sessionStorage.getItem('uid');
+    if (currentUid === event.uid) {
+      deleteEvent(currentUid);
+    } else {
+      alert('Cannot dismiss others event');
+    }
+  };
 
   const acceptEvent = (e) => {
     e.preventDefault();
@@ -62,7 +66,7 @@ export default function AddMarker({ event, position, user }) {
         event={event}
         position={position}
         acceptCallback={acceptEvent}
-		dismissCallback={dismissEvent}
+        dismissCallback={dismissEvent}
       />
     </Marker>
   );

@@ -1,15 +1,19 @@
 .marker-user-icon-marker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 150%;
-    min-height: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: white;
+  height: 100%;
 }
 
 .marker-user-icon-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    height: 150%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 80px;
+  border: 6px solid #ffffff;
 }
