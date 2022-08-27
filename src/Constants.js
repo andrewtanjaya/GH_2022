@@ -7,3 +7,6 @@ export const FAINT = 'faint';
 export const ROBBERY = 'robbery';
 export const CAR_ACCIDENT = 'car accident';
 export const FIRE_BREAKOUT = 'fire breakout';
+export const CUSTOM = 'custom';
+
+export const DEFAULT_EVENT_TITLE = 'HELLO!'

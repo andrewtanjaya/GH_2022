@@ -1,3 +1,4 @@
+
 import { Marker } from 'react-leaflet';
 
 import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
@@ -27,12 +28,13 @@ export default function AddMarker({ currentUser, event, position, user }) {
     e.preventDefault();
 	var found = false;
 	const currentUid = currentUser[0].uid;
-	for(let i = 0; i< event.accepted_uids;i++){
-		if(event.accepted_uids[i] === currentUid){
+	for(let i = 0; i < event.accepted_uids.length;i++){
+		if(event.accepted_uids[i].uid === currentUid){
 			found = true
 			break
 		}
 	}
+	
     let newAccept = { uid: currentUid, photoUrl: currentUser[0].photoUrl };
     if(event){
 		if (currentUid !== event.uid) {
