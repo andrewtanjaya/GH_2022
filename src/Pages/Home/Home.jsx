@@ -49,7 +49,11 @@ function LocationMarker({ eventMarker, user }) {
     <></>
   ) : (
     <>
-      <Circle center={position} pathOptions={fillBlueOptions} radius={NOTIFICATION_RADIUS} />
+      <Circle
+        center={position}
+        pathOptions={fillBlueOptions}
+        radius={NOTIFICATION_RADIUS}
+      />
       <AddMarker user={user} event={eventMarker} position={position} />
     </>
   );

@@ -39,7 +39,7 @@ export default function PopUpWithLocation({
   event,
   position,
   acceptCallback,
-  dismissCallback
+  dismissCallback,
 }) {
   return (
     <Popup>
@@ -47,8 +47,12 @@ export default function PopUpWithLocation({
       <div>
         {event ? (
           <div>
-			<ActionButton acceptCallback={acceptCallback} dismissCallback={dismissCallback} event={event}/>
-		  </div>
+            <ActionButton
+              acceptCallback={acceptCallback}
+              dismissCallback={dismissCallback}
+              event={event}
+            />
+          </div>
         ) : (
           <></>
         )}
