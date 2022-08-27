@@ -1,5 +1,5 @@
-import { updateToken } from "../../Database";
-import { auth } from "../../Firebase";
+import { updateToken } from '../../Database';
+import { auth } from '../../Firebase';
 
 export default function SignOutBtn({ currentUser }) {
   const signOut = () => {

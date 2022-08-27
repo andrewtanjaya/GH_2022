@@ -1,10 +1,17 @@
-import { useEffect } from "react";
-import { Marker } from "react-leaflet";
+import { useEffect } from 'react';
+import { Marker } from 'react-leaflet';
 
-import PopUpWithLocation from "../Components/PopUpWithLocation/PopUpWithLocation";
-import { updateAccepted } from "../Database";
+import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
+import { updateAccepted } from '../Database';
 
-export default function AddMarker({ ev, position , user}) {
+import { Icon } from 'leaflet';
+
+// export const icon = new Icon({
+//   iconUrl: '/skateboarding.svg',
+//   iconSize: [25, 25],
+// });
+
+export default function AddMarker({ event, position, user }) {
   /*
 	description: string
 	position : {
@@ -12,32 +19,44 @@ export default function AddMarker({ ev, position , user}) {
 	 	lng: 106.790108,
 	 }
 	*/
+
   const acceptEvent = (e) => {
     e.preventDefault();
-    const currentUid = sessionStorage.getItem("uid");
-    if (currentUid !== ev.uid) {
-      if (ev.accepted_uids && ev.accepted_uids.length > 0) {
-        if (!ev.accepted_uids.includes(currentUid)) {
-          ev.accepted_uids.push(currentUid);
-          updateAccepted(ev.uid, currentUid);
+    const currentUid = sessionStorage.getItem('uid');
+    if (currentUid !== event.uid) {
+      if (event.accepted_uids && event.accepted_uids.length > 0) {
+        if (!event.accepted_uids.includes(currentUid)) {
+          event.accepted_uids.push(currentUid);
+          updateAccepted(event.uid, currentUid);
         } else {
-          alert("You have accepted this event");
+          alert('You have accepted this event');
         }
       } else {
-        const uids = ev.accepted_uids
-          ? (ev.accepted_uids[0] = currentUid)
+        const uids = event.accepted_uids
+          ? (event.accepted_uids[0] = currentUid)
           : [currentUid];
-        updateAccepted(ev.uid, uids);
+        updateAccepted(event.uid, uids);
       }
     } else {
-      alert("Cannot accept your own event");
+      alert('Cannot accept your own event');
     }
   };
-  return position === null ? null : (
-    <Marker position={position}>
+
+  return position === null && user ? null : (
+    <Marker
+      position={position}
+      icon={
+        new Icon({
+          iconUrl: user
+            ? 'https://cdn.icon-icons.com/icons2/2596/PNG/512/thinking_problem_icon_154732.png'
+            : 'https://cdn.icon-icons.com/icons2/2596/PNG/512/check_one_icon_155665.png',
+          iconSize: [25, 25],
+        })
+      }
+    >
       <PopUpWithLocation
         user={user}
-        ev={ev}
+        event={event}
         position={position}
         acceptCallback={acceptEvent}
       />

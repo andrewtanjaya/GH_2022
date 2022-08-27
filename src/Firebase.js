@@ -1,9 +1,12 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getFirestore, collection } from "@firebase/firestore";
-import { getMessaging, onMessage, getToken } from "firebase/messaging";
-import { addUser, getUserByUID, updateToken } from "./Database";
+
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getFirestore, collection } from '@firebase/firestore';
+import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import { addUser, getUserByUID } from './Database';
+import GetCurrentLocation from './Utils/GetCurrentPosition';
+import { User } from './Model/User';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -51,19 +54,19 @@ export const fetchToken = () => {
   })
     .then((currentToken) => {
       if (currentToken) {
-        console.log("current token for client: ", currentToken);
-        sessionStorage.setItem("token", currentToken);
-        console.log("session token " + sessionStorage.getItem("token"));
+        console.log('current token for client: ', currentToken);
+        sessionStorage.setItem('token', currentToken);
+        console.log('session token ' + sessionStorage.getItem('token'));
       } else {
         console.log(
-          "No registration token available. Request permission to generate one."
+          'No registration token available. Request permission to generate one.',
         );
       }
     })
     .catch((err) => {
-      console.log("An error occurred while retrieving token. ", err);
+      console.log('An error occurred while retrieving token. ', err);
     });
 };
 
-export const usersRef = collection(db, "users");
-export const eventRef = collection(db, "events");
+export const usersRef = collection(db, 'users');
+export const eventRef = collection(db, 'events');

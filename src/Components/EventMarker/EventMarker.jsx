@@ -1,9 +1,9 @@
-import React from "react";
-import { updateAccepted } from "../../Database";
+import React from 'react';
+import { updateAccepted } from '../../Database';
 
 function EventMarker({ ev }) {
   const acceptEvent = () => {
-    const currentUid = sessionStorage.getItem("uid");
+    const currentUid = sessionStorage.getItem('uid');
     if (currentUid !== ev.uid) {
       if (ev.accepted_uids && ev.accepted_uids.length > 0) {
         if (!ev.accepted_uids.includes(currentUid)) {
@@ -11,7 +11,7 @@ function EventMarker({ ev }) {
           updateAccepted(ev.uid, currentUid);
         } else {
           //TODO : disable the accept button if already accepted
-          alert("You have accepted this event");
+          alert('You have accepted this event');
         }
       } else {
         const uids = ev.accepted_uids
@@ -20,7 +20,7 @@ function EventMarker({ ev }) {
         updateAccepted(ev.uid, uids);
       }
     } else {
-      alert("Cannot accept your own event");
+      alert('Cannot accept your own event');
     }
   };
 
