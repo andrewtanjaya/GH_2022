@@ -10,7 +10,7 @@ import AddMarker from '../../Utils/AddMarker';
 
 import GetCurrentLocation from '../../Utils/GetCurrentPosition';
 
-import { auth, eventRef, onMessageListener, usersRef } from '../../Firebase';
+import { eventRef, onMessageListener, usersRef } from '../../Firebase';
 import {
   NOTIFICATION_RADIUS,
   PAGE_MODE_OFFLINE,
@@ -18,12 +18,8 @@ import {
 } from '../../Constants';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { query, where } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import SOSBtn from '../../Components/SOSBtn/SOSBtn';
-import { Event } from '../../Model/Event';
-import EventMarker from '../../Components/EventMarker/EventMarker';
 import { updatePosition } from '../../Database';
-import { getDistanceFromLatLonInM, sendPush } from '../../Utils/Helper';
+import { getDistanceFromLatLonInM } from '../../Utils/Helper';
 import SOSForm from '../../Components/SOSForm/SOSForm';
 import { Space, message, notification } from 'antd';
 

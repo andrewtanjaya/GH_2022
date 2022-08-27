@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Popup } from 'react-leaflet';
 
 function PopUpDescription({ event, user }) {
