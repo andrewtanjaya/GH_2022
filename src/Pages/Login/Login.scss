@@ -1,6 +1,35 @@
 .login {
+  color: white;
+
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  background-color:#000000;
+  background-image:
+  radial-gradient(at 93% 18%, hsla(183,85%,78%,0.4) 0px, transparent 50%),
+  radial-gradient(at 94% 80%, hsla(239,64%,65%,0.4) 0px, transparent 50%),
+  radial-gradient(at 57% 97%, hsla(251,85%,63%,0.4) 0px, transparent 50%),
+  radial-gradient(at 15% 0%, hsla(215,87%,60%,0.4) 0px, transparent 50%),
+  radial-gradient(at 80% 25%, hsla(29,65%,67%,0.4) 0px, transparent 50%),
+  radial-gradient(at 13% 88%, hsla(323,92%,67%,0.4) 0px, transparent 50%),
+  radial-gradient(at 90% 16%, hsla(130,60%,70%,0.4) 0px, transparent 50%);
+}
+
+.map-img {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-weight: 800;
+  color: white;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.subtitle{
+  color: rgba(255, 255, 255, 0.737);
 }

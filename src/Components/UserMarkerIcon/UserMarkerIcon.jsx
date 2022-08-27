@@ -1,11 +1,6 @@
-import { useState } from 'react';
-
-import { Img } from 'react-image';
-
 import { divIcon } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { ThreeDots } from 'react-loader-spinner';
 
 import './UserMarkerIcon.scss';
 

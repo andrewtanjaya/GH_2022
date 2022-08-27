@@ -1,19 +1,15 @@
-import { Button } from 'antd';
 import SignInBtn from '../../Components/SignInBtn/SignInBtn';
 import { fetchToken } from '../../Firebase';
 import './Login.scss';
-import SOSForm from '../../Components/SOSForm/SOSForm';
 
 export default function Login() {
   fetchToken();
   return (
     <div className="login">
-      <div className="title">
-        <h1>HELP ME !</h1>
+		<img className='map-img' src='./asset/hand-img.png' />
+        <h1 className='title'>GOTONG ROYONG</h1>
+		<p className='subtitle'>Make help easier to find 🎉</p>
         <SignInBtn />
-        <SOSForm />
-        {/* <Button type="primary">Button</Button> */}
-      </div>
     </div>
   );
 }
