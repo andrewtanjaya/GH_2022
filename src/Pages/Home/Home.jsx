@@ -143,36 +143,39 @@ export default function Home() {
 
   return (
     <div>
-      {mode === PAGE_MODE_OFFLINE ? (
-        <p>Your are offline</p>
-      ) : (
-        <p>Your are online</p>
-      )}
-      <div>
-        <p>Notif Title : {notification.title}</p>
-        <p>Notif Body : {notification.body}</p>
-      </div>
+      <div className="action-panel">
+        {mode === PAGE_MODE_OFFLINE ? (
+          <p>Your are offline</p>
+        ) : (
+          <p>Your are online</p>
+        )}
+        <div>
+          <p>Notif Title : {notification.title}</p>
+          <p>Notif Body : {notification.body}</p>
+        </div>
 
-      {loading ? (
-        <pre>loading please wait...</pre>
-      ) : error ? (
-        <pre>{cachedUser}</pre>
-      ) : (
-        <pre>{JSON.stringify(currentUser)}</pre>
-      )}
+        {loading ? (
+          <pre>loading please wait...</pre>
+        ) : error ? (
+          <pre>{cachedUser}</pre>
+        ) : (
+          <pre>{JSON.stringify(currentUser)}</pre>
+        )}
 
-      <button
-        onClick={() => {
-          sendPush(nearbyToken);
-        }}
-      >
-        Send Notif
-      </button>
+        <button
+          onClick={() => {
+            sendPush(nearbyToken);
+          }}
+        >
+          Send Notif
+        </button>
 
-      {/* <SOSBtn myEvent={mockEvent} /> */}
 	  <SOSForm/>
 
-      <SignOutBtn currentUser={currentUser} />
+        <SignOutBtn currentUser={currentUser} />
+
+        <button onClick={GetCurrentLocation}>Get Current Location</button>
+      </div>
 
       <MapContainer
         id="map"
@@ -227,7 +230,6 @@ export default function Home() {
           })
         )}
       </MapContainer>
-      <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );
 }
