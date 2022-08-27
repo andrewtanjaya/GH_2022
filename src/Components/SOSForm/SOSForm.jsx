@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Avatar, Button, Modal, List, Input } from 'antd';
+import { Event } from '../../Model/Event';
+import { addEvent } from '../../Database';
 
 const data = [
   {
@@ -17,8 +19,17 @@ const data = [
 ];
 
 export default function SOSForm() {
-  const [sosType, setSosType] = useState('');
+  const [description, setDescription] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const triggerSOS = () => {
+    let uid = sessionStorage.getItem("uid")
+    let latlng = sessionStorage.getItem("position")
+    console.log(JSON.stringify(latlng))
+    console.log(latlng["lat"])
+    console.log(latlng["lng"])
+    // addEvent(new Event(uid, "SOS", description,latlng.lng, latlng.lat,[]));
+  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -26,8 +37,7 @@ export default function SOSForm() {
 
   const handleOk = () => {
     setIsModalVisible(false);
-
-    // add SOS
+    triggerSOS()
   };
 
   const handleCancel = () => {
@@ -35,8 +45,8 @@ export default function SOSForm() {
   };
 
   const onChange = (e) => {
-    setSosType(e.target.value);
-    console.log(sosType);
+    setDescription(e.target.value);
+    console.log(description);
   };
 
   return (
@@ -50,14 +60,14 @@ export default function SOSForm() {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <p>{sosType}</p>
+        <p>{description}</p>
         <List
           itemLayout="horizontal"
           dataSource={data}
           renderItem={(item) => (
             <List.Item
               onClick={() => {
-                setSosType(item.title);
+                setDescription(item.title);
               }}
             >
               <List.Item.Meta
