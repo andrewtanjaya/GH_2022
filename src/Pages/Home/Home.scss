@@ -16,7 +16,9 @@
 .action-panel {
   width: 100%;
   z-index: 1;
+  display: flex;
   position: fixed;
+  justify-content: flex-end;
   top: 0;
 }
 
@@ -28,4 +30,17 @@
   bottom: 72px;
   left: 50%;
   cursor: pointer;
+}
+
+.loading-popup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.2;
+    background-color: black;
 }
