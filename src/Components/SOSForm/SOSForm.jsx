@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Avatar, Button, Modal, List, Input } from 'antd';
 import { Event } from '../../Model/Event';
 import { addEvent } from '../../Database';
+import { sendPush } from '../../Utils/Helper';
 
 const data = [
   {
@@ -18,7 +19,7 @@ const data = [
   },
 ];
 
-export default function SOSForm() {
+export default function SOSForm({nearbyTokens}) {
   const [description, setDescription] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -27,6 +28,7 @@ export default function SOSForm() {
     let long = sessionStorage.getItem("longitude")
     let lat = sessionStorage.getItem("latitude")
     addEvent(new Event(uid, "SOS", description,long, lat,[]));
+    sendPush(nearbyTokens)
   };
 
   const showModal = () => {
