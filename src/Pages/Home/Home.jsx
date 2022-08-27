@@ -167,11 +167,7 @@ export default function Home() {
           Send Notif
         </button>
 
-        <SOSBtn myEvent={mockEvent} />
-
         <SignOutBtn currentUser={currentUser} />
-
-        <button onClick={GetCurrentLocation}>Get Current Location</button>
       </div>
 
       <MapContainer
@@ -227,6 +223,9 @@ export default function Home() {
           })
         )}
       </MapContainer>
+
+      <SOSBtn myEvent={mockEvent} className="sos-btn-container" />
+      <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );
 }

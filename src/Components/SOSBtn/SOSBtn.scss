@@ -1,0 +1,55 @@
+// @import '~antd/es/style/themes/default.less';
+
+.sos-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 28pt;
+  font-weight: bold;
+  background-color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sos-btn-content {
+  width: 64px;
+  height: 64px;
+  // min-width: 48px;
+  // min-height: 48px;
+  border-radius: 50%;
+  font-size: 32pt;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #ff4d4d;
+}
+
+.pulsating-circle {
+  background-color: #ff4d4d;
+  border-radius: 50%;
+  animation: pulse-red 2s infinite;
+  height: 80px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes pulse-red {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
+  }
+
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+  }
+}
