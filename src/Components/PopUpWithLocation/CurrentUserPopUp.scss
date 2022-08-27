@@ -1,0 +1,31 @@
+.pop-up-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: cyan;
+}
+
+.popup-user {
+  &-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    background-color: black;
+    &-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      object-fit: cover;
+    }
+  }
+}
