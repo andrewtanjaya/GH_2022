@@ -12,9 +12,6 @@ export default function AddMarker({ ev, position , user}) {
 	 	lng: 106.790108,
 	 }
 	*/
-  useEffect(() => {
-    console.log("user 1", user);
-  }, []);
   const acceptEvent = (e) => {
     e.preventDefault();
     const currentUid = sessionStorage.getItem("uid");
