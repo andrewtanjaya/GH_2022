@@ -32,6 +32,7 @@ export const addUser = async (user, token) => {
 
 export const updateToken = async (newToken, user) => {
   newToken = denullify(newToken);
+  console.log("token uid", user.uid)
   await updateDoc(doc(usersRef, user.uid), {
     token: newToken,
   });

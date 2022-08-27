@@ -30,7 +30,7 @@ function LocationMarker({ eventMarker, user }) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
 
-      updatePosition(sessionStorage.getItem("uid"), e.latlng);
+    //   updatePosition(sessionStorage.getItem("uid"), e.latlng);
     },
   });
 
@@ -172,7 +172,11 @@ export default function Home() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker user={currentUser[0]} />
+        {loading ? (
+          <></>
+        ) : (
+          <LocationMarker user={currentUser ? currentUser[0] : null} />
+        )}
 
         {loadingAllUser ? (
           <></>
