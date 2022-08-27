@@ -44,7 +44,6 @@ function LocationMarker({ eventMarker, user }) {
     <AddMarker user={user} event={eventMarker} position={position} />
   );
 }
-
 export default function Home() {
   const [mode, setMode] = useState(PAGE_MODE_ONLINE);
 
@@ -102,7 +101,6 @@ export default function Home() {
     .catch((err) => console.log('failed: ', err));
 
   const sendPush = () => {
-
     const url = 'https://fcm.googleapis.com/fcm/send';
 
     fetch(url, {
@@ -152,6 +150,7 @@ export default function Home() {
       <button onClick={sendPush}>Send Notif</button>
 
       <SOSBtn myEvent={mockEvent} />
+
       <SignOutBtn currentUser={currentUser} />
 
       {loadingEvents ? (
@@ -196,7 +195,6 @@ export default function Home() {
         )}
       </MapContainer>
 
-      <SignOutBtn />
       <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );

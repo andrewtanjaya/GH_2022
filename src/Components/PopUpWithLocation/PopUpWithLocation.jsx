@@ -14,9 +14,12 @@ function PopUpDescription({ event, user }) {
   }
 }
 
-
-
-export default function PopUpWithLocation({ user, ev, position, acceptCallback}) {
+export default function PopUpWithLocation({
+  user,
+  ev,
+  position,
+  acceptCallback,
+}) {
   return (
     <Popup>
       <PopUpDescription event={ev} user={user} />
