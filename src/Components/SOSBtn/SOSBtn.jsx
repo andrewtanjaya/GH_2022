@@ -1,5 +1,5 @@
-import React from "react";
-import { addEvent, deleteEvent } from "../../Database";
+import React from 'react';
+import { addEvent, deleteEvent } from '../../Database';
 
 function SOSBtn({ myEvent }) {
   const triggerSOS = () => {
@@ -8,9 +8,9 @@ function SOSBtn({ myEvent }) {
 
     var waitTime = 20000;
     var executionTime;
-    var initialTime = localStorage.getItem("initialTime");
+    var initialTime = localStorage.getItem('initialTime');
     if (initialTime === null) {
-      localStorage.setItem("initialTime", new Date().getTime());
+      localStorage.setItem('initialTime', new Date().getTime());
       executionTime = waitTime;
     } else {
       executionTime =
@@ -19,8 +19,8 @@ function SOSBtn({ myEvent }) {
     }
     console.log(executionTime);
     setTimeout(function () {
-      deleteEvent(sessionStorage.getItem("uid"));
-      localStorage.removeItem("initialTime");
+      deleteEvent(sessionStorage.getItem('uid'));
+      localStorage.removeItem('initialTime');
     }, executionTime);
   };
   return (

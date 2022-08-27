@@ -5,10 +5,10 @@ import {
   getDocs,
   setDoc,
   updateDoc,
-} from "firebase/firestore";
-import { eventRef, usersRef } from "./Firebase";
-import { denullify } from "./Helper";
-import { User } from "./Model/User";
+} from 'firebase/firestore';
+import { eventRef, usersRef } from './Firebase';
+import { denullify } from './Helper';
+import { User } from './Model/User';
 
 export const addUser = async (user, token) => {
   user.email = denullify(user.email);
@@ -24,7 +24,7 @@ export const addUser = async (user, token) => {
     user.photoURL,
     0,
     0,
-    token
+    token,
   );
 
   await setDoc(doc(usersRef, user.uid), Object.assign({}, newUser));
