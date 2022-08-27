@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Avatar, Button, Modal, List, Input } from 'antd';
 import { Event } from '../../Model/Event';
-import { addEvent } from '../../Database';
+import { addEvent, getEventByUID } from '../../Database';
 import SOSBtn from '../../Components/SOSBtn/SOSBtn';
-import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT } from '../../Constants';
+import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT, CUSTOM, DEFAULT_EVENT_TITLE } from '../../Constants';
 import { sendPush } from '../../Utils/Helper';
 import './SOSForm.scss';
 import { MdClose } from 'react-icons/md';
@@ -45,12 +45,19 @@ export default function SOSForm({ nearbyTokens }) {
     let uid = sessionStorage.getItem('uid');
     let long = sessionStorage.getItem('longitude');
     let lat = sessionStorage.getItem('latitude');
-    let title = template.title ? template.title : "HELP!"
+    let title = template.title ? template.title : DEFAULT_EVENT_TITLE
     let desc = template.description ? template.description : description
-    let t = template.type ? template.type : "CUSTOM"
+    let t = template.type ? template.type : CUSTOM
     let event = new Event(uid, t,title, desc, long, lat, [])
-    addEvent(event);
-    sendPush(nearbyTokens, new Event(uid, t,title, desc, long, lat, []));
+    getEventByUID(event.uid).then((e)=>{
+      if(e === null || e === {}) {
+        addEvent(event);
+        sendPush(nearbyTokens, new Event(uid, t,title, desc, long, lat, []));
+      }else{
+        alert("Dismiss ongoing event first!")
+      }
+    })
+    
   };
 
   const showModal = () => {
