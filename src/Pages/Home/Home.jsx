@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.scss';
 import { useMapEvents } from 'react-leaflet/hooks';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle } from 'react-leaflet';
 
 import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
@@ -11,7 +11,11 @@ import AddMarker from '../../Utils/AddMarker';
 import GetCurrentLocation from '../../Utils/GetCurrentPosition';
 
 import { auth, eventRef, onMessageListener, usersRef } from '../../Firebase';
-import { NOTIFICATION_RADIUS, PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from '../../Constants';
+import {
+  NOTIFICATION_RADIUS,
+  PAGE_MODE_OFFLINE,
+  PAGE_MODE_ONLINE,
+} from '../../Constants';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { query, where } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -39,10 +43,15 @@ function LocationMarker({ eventMarker, user }) {
     map.locate();
   }, []);
 
+  const fillBlueOptions = { fillColor: 'blue' };
+
   return position === null ? (
     <></>
   ) : (
-    <AddMarker user={user} event={eventMarker} position={position} />
+    <>
+      <Circle center={position} pathOptions={fillBlueOptions} radius={200} />
+      <AddMarker user={user} event={eventMarker} position={position} />
+    </>
   );
 }
 export default function Home() {
@@ -52,8 +61,8 @@ export default function Home() {
   const [show, setShow] = useState(false);
   const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
-  const [nearbyUser, setNearbyUser] = useState([])
-  const [nearbyToken, setNearbyToken] = useState([])
+  const [nearbyUser, setNearbyUser] = useState([]);
+  const [nearbyToken, setNearbyToken] = useState([]);
 
   const [mockEvent, setMockEvent] = useState(
     new Event(
@@ -84,7 +93,11 @@ export default function Home() {
   useEffect(() => {
     if (allUser && currentUser) {
       setNearbyUser(allUser.filter(isBetweenRadiusAndNotCurrentUser));
-	  setNearbyToken(nearbyUser.map((user)=>{return user.token}))
+      setNearbyToken(
+        nearbyUser.map((user) => {
+          return user.token;
+        }),
+      );
     }
   }, [allUser]);
 
@@ -141,7 +154,13 @@ export default function Home() {
         <pre>{JSON.stringify(currentUser)}</pre>
       )}
 
-      <button onClick={()=>{sendPush(nearbyToken)}}>Send Notif</button>
+      <button
+        onClick={() => {
+          sendPush(nearbyToken);
+        }}
+      >
+        Send Notif
+      </button>
 
       <SOSBtn myEvent={mockEvent} />
 
@@ -160,7 +179,9 @@ export default function Home() {
         {loading ? (
           <></>
         ) : (
-          <LocationMarker user={currentUser ? currentUser[0] : null} />
+          <>
+            <LocationMarker user={currentUser ? currentUser[0] : null} />
+          </>
         )}
 
         {loadingAllUser ? (
@@ -198,7 +219,6 @@ export default function Home() {
           })
         )}
       </MapContainer>
-
       <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );

@@ -16,15 +16,15 @@ function PopUpDescription({ event, user }) {
 
 export default function PopUpWithLocation({
   user,
-  ev,
+  event,
   position,
   acceptCallback,
 }) {
   return (
     <Popup>
-      <PopUpDescription event={ev} user={user} />
+      <PopUpDescription event={event} user={user} />
       <div>
-        {ev ? (
+        {event ? (
           <button type="submit" onClick={acceptCallback}>
             Accept
           </button>

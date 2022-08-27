@@ -1,15 +1,9 @@
-import { useEffect } from 'react';
 import { Marker } from 'react-leaflet';
 
 import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
 import { updateAccepted } from '../Database';
 
-import { Icon } from 'leaflet';
-
-// export const icon = new Icon({
-//   iconUrl: '/skateboarding.svg',
-//   iconSize: [25, 25],
-// });
+import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
 export default function AddMarker({ event, position, user }) {
   /*
@@ -46,17 +40,14 @@ export default function AddMarker({ event, position, user }) {
     <Marker
       position={position}
       icon={
-        new Icon({
-          iconUrl: user
-            ? 'https://cdn.icon-icons.com/icons2/2596/PNG/512/thinking_problem_icon_154732.png'
-            : 'https://cdn.icon-icons.com/icons2/2596/PNG/512/check_one_icon_155665.png',
-          iconSize: [25, 25],
-        })
+        user
+          ? UserMarkerIcon({ url: user.photoUrl })
+          : UserMarkerIcon({ url: './assets/event.png' })
       }
     >
       <PopUpWithLocation
         user={user}
-        ev={event}
+        event={event}
         position={position}
         acceptCallback={acceptEvent}
       />
