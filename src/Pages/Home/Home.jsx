@@ -71,6 +71,7 @@ export default function Home() {
   const [show, setShow] = useState(false);
   const [cachedUser, setCachedUser] = useState({});
   const [nearbyUser, setNearbyUser] = useState([]);
+  const [nearbyEvent, setNearbyEvent] = useState([]);
   const [nearbyToken, setNearbyToken] = useState([]);
   const [network, setNetwork] = useState(1);
 
@@ -116,6 +117,12 @@ export default function Home() {
       );
     }
   }, [allUser]);
+
+  useEffect(() => {
+    if (events && currentUser) {
+      setNearbyEvent(events.filter(isBetweenRadiusAndNotCurrentUser));
+    }
+  }, [events]);
 
   const isBetweenRadiusAndNotCurrentUser = (u) => {
     return (
@@ -225,7 +232,7 @@ export default function Home() {
         {loadingEvents ? (
           <></>
         ) : (
-          events.map((event) => {
+          nearbyEvent.map((event) => {
             return event ? (
               <AddMarker
                 currentUser={currentUser}
