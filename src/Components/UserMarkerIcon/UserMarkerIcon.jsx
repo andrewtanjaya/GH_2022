@@ -14,22 +14,10 @@ export default function UserMarkerIcon({ url }) {
   const iconMarkup = (url) =>
     renderToStaticMarkup(
       <div className="marker-user-icon-marker">
-        <Img
-          src={[url, './asset/event.png']}
+                <img
+          src={url}
           className="marker-user-icon-img"
-          // unloader={<img src="./asset/event.png"></img>}
-          // loader={
-          //   // <ThreeDots
-          //   //   height="40"
-          //   //   width="40"
-          //   //   radius="4"
-          //   //   color="white"
-          //   //   ariaLabel="three-dots-loading"
-          //   //   wrapperStyle={{}}
-          //   //   wrapperClassName=""
-          //   //   visible={true}
-          //   // />
-          // }
+          referrerpolicy="no-referrer"
         />
       </div>,
     );

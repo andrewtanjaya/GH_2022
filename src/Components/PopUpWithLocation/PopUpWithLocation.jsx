@@ -14,20 +14,41 @@ function PopUpDescription({ event, user }) {
   }
 }
 
+function ActionButton({ acceptCallback, dismissCallback, event }) {
+  if (event.uid !== sessionStorage.getItem('uid')) {
+    return (
+      <div>
+        <button type="submit" onClick={acceptCallback}>
+          Accept
+        </button>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <button type="submit" onClick={dismissCallback}>
+          Dismiss
+        </button>
+      </div>
+    );
+  }
+}
+
 export default function PopUpWithLocation({
   user,
   event,
   position,
   acceptCallback,
+  dismissCallback
 }) {
   return (
     <Popup>
       <PopUpDescription event={event} user={user} />
       <div>
         {event ? (
-          <button type="submit" onClick={acceptCallback}>
-            Accept
-          </button>
+          <div>
+			<ActionButton acceptCallback={acceptCallback} dismissCallback={dismissCallback} event={event}/>
+		  </div>
         ) : (
           <></>
         )}
