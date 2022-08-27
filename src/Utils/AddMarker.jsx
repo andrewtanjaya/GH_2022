@@ -1,7 +1,7 @@
 import { Marker } from 'react-leaflet';
 
 import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
-import { updateAccepted } from '../Database';
+import { deleteEvent, updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
@@ -13,6 +13,17 @@ export default function AddMarker({ event, position, user }) {
 	 	lng: 106.790108,
 	 }
 	*/
+
+  const dismissEvent = (e) => {
+    e.preventDefault();
+	console.log("called")
+	const currentUid = sessionStorage.getItem("uid")
+	if(currentUid === event.uid){
+		deleteEvent(currentUid)
+	}else{
+		alert("Cannot dismiss not your own event!")
+	}
+  };
 
   const acceptEvent = (e) => {
     e.preventDefault();
@@ -50,6 +61,7 @@ export default function AddMarker({ event, position, user }) {
         event={event}
         position={position}
         acceptCallback={acceptEvent}
+        dismissCallback={dismissEvent}
       />
     </Marker>
   );
