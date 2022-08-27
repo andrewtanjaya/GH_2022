@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./Home.scss";
-import { useMapEvents } from "react-leaflet/hooks";
+import React, { useState, useEffect } from 'react';
+import './Home.scss';
+import { useMapEvents } from 'react-leaflet/hooks';
 
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer } from 'react-leaflet';
 
-import SignOutBtn from "../../Components/SignOutBtn/SignOutBtn";
+import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
-import AddMarker from "../../Utils/AddMarker";
+import AddMarker from '../../Utils/AddMarker';
 
-import GetCurrentLocation from "../../Utils/GetCurrentPosition";
+import GetCurrentLocation from '../../Utils/GetCurrentPosition';
 
-import { auth, eventRef, onMessageListener, usersRef } from "../../Firebase";
-import { PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from "../../Constants";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { query, where } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
-import SOSBtn from "../../Components/SOSBtn/SOSBtn";
-import { Event } from "../../Model/Event";
-import EventMarker from "../../Components/EventMarker/EventMarker";
-import { updatePosition } from "../../Database";
+import { auth, eventRef, onMessageListener, usersRef } from '../../Firebase';
+import { PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from '../../Constants';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { query, where } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import SOSBtn from '../../Components/SOSBtn/SOSBtn';
+import { Event } from '../../Model/Event';
+import EventMarker from '../../Components/EventMarker/EventMarker';
+import { updatePosition } from '../../Database';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -30,7 +30,7 @@ function LocationMarker({ eventMarker, user }) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
 
-      updatePosition(sessionStorage.getItem("uid"), e.latlng);
+      updatePosition(sessionStorage.getItem('uid'), e.latlng);
     },
   });
 
@@ -41,53 +41,53 @@ function LocationMarker({ eventMarker, user }) {
   return position === null ? (
     <></>
   ) : (
-    <AddMarker user={user} ev={eventMarker} position={position} />
+    <AddMarker user={user} event={eventMarker} position={position} />
   );
 }
 
 export default function Home() {
   const [mode, setMode] = useState(PAGE_MODE_ONLINE);
 
-  const [notification, setNotification] = useState({ title: "", body: "" });
+  const [notification, setNotification] = useState({ title: '', body: '' });
   const [show, setShow] = useState(false);
   const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
 
   const [mockEvent, setMockEvent] = useState(
     new Event(
-      sessionStorage.getItem("uid"),
-      "SOS",
-      "SOS nih butuh bantuan!",
+      sessionStorage.getItem('uid'),
+      'SOS',
+      'SOS nih butuh bantuan!',
       0,
       0,
-      []
-    )
+      [],
+    ),
   );
   // TODO
   // !! cache fetched user here !!
   // get user [logged in user] from db, if success set data to LocalStorage + set to Online Mode
   // if failed, get data from localstorage and set data to state + set to Offline Mode
 
-  const q = query(usersRef, where("uid", "==", sessionStorage.getItem("uid")));
+  const q = query(usersRef, where('uid', '==', sessionStorage.getItem('uid')));
   const [currentUser, loading, error] = useCollectionData(q, {
-    idField: "uid",
+    idField: 'uid',
   });
   const [events, loadingEvents, errorEvents] = useCollectionData(eventRef, {
-    idField: "uid",
+    idField: 'uid',
   });
   const [allUser, loadingAllUser, errorAllUser] = useCollectionData(usersRef, {
-    idField: "uid",
+    idField: 'uid',
   });
 
   useEffect(() => {
     if (error) {
       setMode(PAGE_MODE_OFFLINE);
-      setCachedUser(localStorage.getItem("user"));
+      setCachedUser(localStorage.getItem('user'));
     }
   }, [error]);
 
   useEffect(() => {
-    if (currentUser) localStorage.setItem("user", currentUser);
+    if (currentUser) localStorage.setItem('user', currentUser);
   }, [currentUser]);
 
   onMessageListener()
@@ -99,31 +99,31 @@ export default function Home() {
       });
       console.log(payload);
     })
-    .catch((err) => console.log("failed: ", err));
+    .catch((err) => console.log('failed: ', err));
 
   const sendPush = () => {
     console.log(process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API);
 
-    const url = "https://fcm.googleapis.com/fcm/send";
+    const url = 'https://fcm.googleapis.com/fcm/send';
 
     fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         registration_ids: deviceTokens,
         notification: {
-          title: "Test Notif From App",
-          body: "Test Notif From App",
+          title: 'Test Notif From App',
+          body: 'Test Notif From App',
         },
       }),
       headers: {
-        "Content-Type": "application/json",
-        Connection: "keep-alive",
-        "Accept-Encoding": "gzip, deflate, br",
-        Host: "<calculated when request is sent>",
-        "Content-Length": "<calculated when request is sent>",
-        Accept: "*/*",
+        'Content-Type': 'application/json',
+        Connection: 'keep-alive',
+        'Accept-Encoding': 'gzip, deflate, br',
+        Host: '<calculated when request is sent>',
+        'Content-Length': '<calculated when request is sent>',
+        Accept: '*/*',
         Authorization:
-          "key=" + process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API,
+          'key=' + process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API,
       },
     })
       .then((response) => response.text())
@@ -141,6 +141,7 @@ export default function Home() {
         <p>Notif Title : {notification.title}</p>
         <p>Notif Body : {notification.body}</p>
       </div>
+
       {loading ? (
         <pre>loading please wait...</pre>
       ) : error ? (
@@ -165,21 +166,27 @@ export default function Home() {
       <MapContainer
         id="map"
         center={[-6.17511, 106.865036]}
-        zoom={13}
+        zoom={14}
         scrollWheelZoom={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker user={currentUser[0]} />
+        {loading ? (
+          <></>
+        ) : (
+          <LocationMarker user={currentUser ? currentUser[0] : null} />
+        )}
 
         {loadingAllUser ? (
           <></>
         ) : (
           allUser.map((u) => {
             return (
-              <AddMarker key={u.uid} user={u}
+              <AddMarker
+                key={u.uid}
+                user={u}
                 position={{
                   lat: u.latitude,
                   lng: u.longitude,

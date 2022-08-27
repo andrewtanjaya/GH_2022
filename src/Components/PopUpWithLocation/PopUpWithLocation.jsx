@@ -1,15 +1,34 @@
-import { useEffect } from "react";
-import { Popup } from "react-leaflet";
+import { useEffect } from 'react';
+import { Popup } from 'react-leaflet';
 
-export default function PopUpWithLocation({ user, ev, position, acceptCallback}) {
-	useEffect(()=>{
-		console.log("user",user)
-	},[])
+function PopUpDescription({ event, user }) {
+  if (event) {
+    return <div>{event.description}</div>;
+  }
+
+  if (user) {
+    if (user.uid === sessionStorage.getItem('uid')) {
+      return <div>Your Current Location</div>;
+    }
+    return <div>{user.name}</div>;
+  }
+}
+
+export default function PopUpWithLocation({
+  user,
+  event,
+  position,
+  acceptCallback,
+}) {
+  useEffect(() => {
+    console.log('user', user);
+  }, []);
+
   return (
     <Popup>
-      {ev  ? <div>{ev.description}</div> : user && user.name && user.uid === sessionStorage.getItem("uid") ? <div>Your Current Location</div> : <div><b>{user.name}</b> location</div>}
+      <PopUpDescription event={event} user={user} />
       <div>
-        {ev ? (
+        {event ? (
           <button type="submit" onClick={acceptCallback}>
             Accept
           </button>
@@ -17,8 +36,9 @@ export default function PopUpWithLocation({ user, ev, position, acceptCallback})
           <></>
         )}
         <a
-          href={`${process.env.REACT_APP_GOOGLE_MAP_URL}${position["lat"]}+${position["lng"]}`}
+          href={`${process.env.REACT_APP_GOOGLE_MAP_URL}${position['lat']}+${position['lng']}`}
           target="_blank"
+          rel="noreferrer"
         >
           See Location
         </a>
