@@ -25,6 +25,7 @@ import EventMarker from '../../Components/EventMarker/EventMarker';
 import { updatePosition } from '../../Database';
 import { getDistanceFromLatLonInM, sendPush } from '../../Utils/Helper';
 import SOSForm from '../../Components/SOSForm/SOSForm';
+import { Space, message, notification } from 'antd';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -64,27 +65,13 @@ function LocationMarker({ eventMarker, user }) {
 export default function Home() {
   const [mode, setMode] = useState(PAGE_MODE_ONLINE);
 
-  const [notification, setNotification] = useState({ title: '', body: '' });
+  const [notif, setNotification] = useState({ title: '', body: '' });
   const [show, setShow] = useState(false);
   const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
   const [nearbyUser, setNearbyUser] = useState([]);
   const [nearbyToken, setNearbyToken] = useState([]);
-
-  const [mockEvent, setMockEvent] = useState(
-    new Event(
-      sessionStorage.getItem('uid'),
-      'SOS',
-      'SOS nih butuh bantuan!',
-      0,
-      0,
-      [],
-    ),
-  );
-  // TODO
-  // !! cache fetched user here !!
-  // get user [logged in user] from db, if success set data to LocalStorage + set to Online Mode
-  // if failed, get data from localstorage and set data to state + set to Offline Mode
+  const [network, setNetwork] = useState(1);
 
   const q = query(usersRef, where('uid', '==', sessionStorage.getItem('uid')));
   const [currentUser, loading, error] = useCollectionData(q, {
@@ -96,6 +83,27 @@ export default function Home() {
   const [allUser, loadingAllUser, errorAllUser] = useCollectionData(usersRef, {
     idField: 'uid',
   });
+
+  useEffect(() => {
+    window.addEventListener('online', () => networkOnline());
+    window.addEventListener('offline', () => errorNetwork());
+  }, []);
+
+  const networkOnline = () => {
+    setMode(PAGE_MODE_ONLINE);
+    if (network !== 1) {
+      message.loading('Reconnecting..', 2);
+      setNetwork(1);
+    }
+  };
+
+  const errorNetwork = () => {
+    setMode(PAGE_MODE_OFFLINE);
+    if (network !== 0) {
+      message.error('No Internet Connection', 3);
+      setNetwork(0);
+    }
+  };
 
   useEffect(() => {
     if (allUser && currentUser) {
@@ -141,38 +149,25 @@ export default function Home() {
     })
     .catch((err) => console.log('failed: ', err));
 
+  useEffect(() => {
+    if (notif && notif.title !== '') {
+      openNotification();
+      setNotification({ title: '', body: '' });
+    }
+  }, [notif]);
+
+  const openNotification = () => {
+    notification.open({
+      message: notif.title,
+      description: notif.body,
+    });
+  };
   return (
     <div>
       <div className="action-panel">
-        {mode === PAGE_MODE_OFFLINE ? (
-          <p>Your are offline</p>
-        ) : (
-          <p>Your are online</p>
-        )}
-        <div>
-          <p>Notif Title : {notification.title}</p>
-          <p>Notif Body : {notification.body}</p>
-        </div>
-
-        {loading ? (
-          <pre>loading please wait...</pre>
-        ) : error ? (
-          <pre>{cachedUser}</pre>
-        ) : (
-          <pre>{JSON.stringify(currentUser)}</pre>
-        )}
-
-        <button
-          onClick={() => {
-            sendPush(nearbyToken);
-          }}
-        >
-          Send Notif
-        </button>
-
-        <SOSForm />
-
+        <Space></Space>
         <SignOutBtn currentUser={currentUser} />
+        <SOSForm nearbyTokens={nearbyToken} />
       </div>
 
       <MapContainer
@@ -229,7 +224,6 @@ export default function Home() {
         )}
       </MapContainer>
 
-      <SOSBtn myEvent={mockEvent} className="sos-btn-container" />
       <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );
