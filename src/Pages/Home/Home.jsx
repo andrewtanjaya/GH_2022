@@ -26,8 +26,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import SOSBtn from '../../Components/SOSBtn/SOSBtn';
 import { Event } from '../../Model/Event';
 import EventMarker from '../../Components/EventMarker/EventMarker';
+import { updatePosition } from '../../Database';
 
-function LocationMarker() {
+function LocationMarker({eventMarker}) {
 	const [position, setPosition] = useState(null);
 	const map = useMapEvents({
 		click() {
@@ -35,14 +36,19 @@ function LocationMarker() {
 		},
 		locationfound(e) {
 			setPosition(e.latlng);
+			console.log("found", e.latlng)
 			map.flyTo(e.latlng, map.getZoom());
 
-			// bisa dipasang UPDATE current user location (lat, ltg)
+			// updatePosition(sessionStorage.getItem("uid"), e.latlng)
 		},
 	});
 
-	const description = 'You are here';
-	return <AddMarker description={description} position={position} />;
+	useEffect(()=>{
+		map.locate();
+		console.log("duar", position)
+	},[])
+
+	return position === null ? <></> : <AddMarker ev={eventMarker} position={position} />;
 }
 
 export default function Home() {
@@ -80,7 +86,7 @@ export default function Home() {
 	useEffect(() => {
 		if (error) {
 			setMode(PAGE_MODE_OFFLINE);
-			setCachedUser(localStorage.getItem('users'));
+			setCachedUser(localStorage.getItem('user'));
 		}
 	}, [error]);
 
@@ -173,13 +179,13 @@ export default function Home() {
 				<LocationMarker />
 
 				{/* loop data user then add marker */}
-				<AddMarker
+				{/* <AddMarker
 					description={'testing'}
 					position={{
 						lat: -6.27651,
 						lng: 106.890108,
 					}}
-				/>
+				/> */}
 			</MapContainer>
 
 			<SignOutBtn />

@@ -1,17 +1,17 @@
 import { Popup } from 'react-leaflet';
 
 export default function PopUpWithLocation({
-	description,
+	ev,
 	position,
 	acceptCallback,
 }) {
 	return (
 		<Popup>
-			<div>{description.toString()}</div>
+			{ ev ? <div>{ev.description}</div> : <div>Your Current Location</div> }
 			<div>
-				<button type='sumit' onClick={acceptCallback}>
+				{ ev ? <button type='submit' onClick={acceptCallback}>
 					Accept
-				</button>
+				</button> : <></>}
 				<a
 					href={`${process.env.REACT_APP_GOOGLE_MAP_URL}${position['lat']}+${position['lng']}`}
 					target='_blank'

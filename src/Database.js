@@ -23,6 +23,13 @@ export const updateToken = async (newToken,user)=>{
     })
 }
 
+export const updatePosition = async (uid, pos) =>{
+    await updateDoc(doc(usersRef, uid), {
+        longitude: pos.lng,
+        latitude: pos.lat
+    })
+}
+
 export const getUserByUID = async (uid)=> {
     const userSnap = await getDoc(doc(usersRef, uid))
     return userSnap.exists() ? userSnap.data() : null
