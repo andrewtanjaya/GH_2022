@@ -39,13 +39,18 @@ const data = [
 export default function SOSForm({ nearbyTokens }) {
   const [description, setDescription] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [template, setTemplate] = useState({})
 
   const triggerSOS = () => {
     let uid = sessionStorage.getItem('uid');
     let long = sessionStorage.getItem('longitude');
     let lat = sessionStorage.getItem('latitude');
-    addEvent(new Event(uid, 'SOS', description, long, lat, []));
-    sendPush(nearbyTokens);
+    let title = template.title ? template.title : "HELP!"
+    let desc = template.description ? template.description : description
+    let t = template.type ? template.type : "CUSTOM"
+    let event = new Event(uid, t,title, desc, long, lat, [])
+    addEvent(event);
+    sendPush(nearbyTokens, new Event(uid, t,title, desc, long, lat, []));
   };
 
   const showModal = () => {
@@ -62,6 +67,7 @@ export default function SOSForm({ nearbyTokens }) {
   };
 
   const onChange = (e) => {
+    setTemplate({})
     setDescription(e.target.value);
   };
 
@@ -91,13 +97,13 @@ export default function SOSForm({ nearbyTokens }) {
           renderItem={(item) => (
             <List.Item
               onClick={() => {
-                setDescription(item.type);
+                setTemplate(item);
               }}
               className={`sos-list-item ${
-                description === item.type ? 'active' : ''
+                template === item ? 'active' : ''
               }`}
               extra={
-                description === item.type ? (
+                template === item ? (
                   <BsCheckCircleFill
                     style={{ marginLeft: '0.05rem' }}
                     fontSize={'14pt'}

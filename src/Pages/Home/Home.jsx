@@ -63,7 +63,6 @@ export default function Home() {
 
   const [notif, setNotification] = useState({ title: '', body: '' });
   const [show, setShow] = useState(false);
-  const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
   const [nearbyUser, setNearbyUser] = useState([]);
   const [nearbyToken, setNearbyToken] = useState([]);
@@ -206,6 +205,7 @@ export default function Home() {
           events.map((event) => {
             return event ? (
               <AddMarker
+				currentUser={currentUser}
                 key={event.uid}
                 event={event}
                 position={{
