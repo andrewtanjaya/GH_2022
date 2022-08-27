@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getFirestore, collection } from "@firebase/firestore";
-import { getMessaging, onMessage, getToken } from "firebase/messaging";
-import { addUser, getUserByUID, updateToken } from "./Database";
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getFirestore, collection } from '@firebase/firestore';
+import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import { addUser, getUserByUID, updateToken } from './Database';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -24,11 +24,11 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
-      sessionStorage.setItem("uid", result.user.uid);
+      sessionStorage.setItem('uid', result.user.uid);
       getUserByUID(result.user.uid).then((userById) => {
         if (userById === null || userById === {})
-          addUser(result.user, sessionStorage.getItem("token"));
-		else updateToken(sessionStorage.getItem("token"),result.user)
+          addUser(result.user, sessionStorage.getItem('token'));
+        else updateToken(sessionStorage.getItem('token'), result.user);
       });
     })
     .catch((error) => {
@@ -51,17 +51,17 @@ export const fetchToken = () => {
   })
     .then((currentToken) => {
       if (currentToken) {
-        sessionStorage.setItem("token", currentToken);
+        sessionStorage.setItem('token', currentToken);
       } else {
         console.log(
-          "No registration token available. Request permission to generate one."
+          'No registration token available. Request permission to generate one.',
         );
       }
     })
     .catch((err) => {
-      console.log("An error occurred while retrieving token. ", err);
+      console.log('An error occurred while retrieving token. ', err);
     });
 };
 
-export const usersRef = collection(db, "users");
-export const eventRef = collection(db, "events");
+export const usersRef = collection(db, 'users');
+export const eventRef = collection(db, 'events');

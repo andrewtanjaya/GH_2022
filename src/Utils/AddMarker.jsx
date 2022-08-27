@@ -1,37 +1,9 @@
-import { useEffect } from 'react';
 import { Marker } from 'react-leaflet';
-
-import { renderToStaticMarkup } from 'react-dom/server';
 
 import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
 import { updateAccepted } from '../Database';
 
-import { Icon, divIcon } from 'leaflet';
-import './AddMarker.scss';
-
-// function GetIcon({user}) {
-//   if (user){
-//       user.
-//   }
-//   reutn user ? user.photoUrl : './MarkerAsset/event.png',
-// }
-
-// const icon = L.divIcon({
-//   className: 'custom-icon',
-//   html: ReactDOMServer.renderToString(<Icon perc={this.state.key} />),
-// });
-
-const iconMarkup = (url) =>
-  renderToStaticMarkup(
-    <div className="markeruser-icon-marker">
-      <img src={url} className="markeruser-icon-marker-img" alt="" />
-    </div>,
-  );
-
-const customMarkerIcon = (url) =>
-  divIcon({
-    html: iconMarkup(url),
-  });
+import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
 export default function AddMarker({ event, position, user }) {
   /*
@@ -65,7 +37,7 @@ export default function AddMarker({ event, position, user }) {
   };
 
   return position === null && user ? null : (
-    <Marker position={position} icon={customMarkerIcon(user.photoUrl)}>
+    <Marker position={position} icon={UserMarkerIcon({ url: user.photoUrl })}>
       <PopUpWithLocation
         user={user}
         event={event}
