@@ -1,5 +1,6 @@
 import React from 'react';
 import { addEvent, deleteEvent } from '../../Database';
+import SOSForm from '../SOSForm/SOSForm';
 
 function SOSBtn({ myEvent }) {
   const triggerSOS = () => {
