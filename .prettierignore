@@ -1,5 +1,2 @@
-# Ignore Variable
-*variables.scss
-
 # Ignore Artifacts
 node_modules
