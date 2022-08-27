@@ -20,7 +20,7 @@ import { Event } from "../../Model/Event";
 import EventMarker from "../../Components/EventMarker/EventMarker";
 import { updatePosition } from "../../Database";
 
-function LocationMarker({ eventMarker }) {
+function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
   const map = useMapEvents({
     click() {
@@ -41,7 +41,7 @@ function LocationMarker({ eventMarker }) {
   return position === null ? (
     <></>
   ) : (
-    <AddMarker ev={eventMarker} position={position} />
+    <AddMarker user={user} ev={eventMarker} position={position} />
   );
 }
 
@@ -172,17 +172,17 @@ export default function Home() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker />
+        <LocationMarker user={currentUser[0]} />
 
         {loadingAllUser ? (
           <></>
         ) : (
-          allUser.map((user) => {
+          allUser.map((u) => {
             return (
-              <AddMarker
+              <AddMarker key={u.uid} user={u}
                 position={{
-                  lat: user.latitude,
-                  lng: user.longitude,
+                  lat: u.latitude,
+                  lng: u.longitude,
                 }}
               />
             );

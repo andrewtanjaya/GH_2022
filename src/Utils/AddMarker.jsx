@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { Marker } from "react-leaflet";
 
 import PopUpWithLocation from "../Components/PopUpWithLocation/PopUpWithLocation";
 import { updateAccepted } from "../Database";
 
-export default function AddMarker({ ev, position }) {
+export default function AddMarker({ ev, position , user}) {
   /*
 	description: string
 	position : {
@@ -11,6 +12,9 @@ export default function AddMarker({ ev, position }) {
 	 	lng: 106.790108,
 	 }
 	*/
+  useEffect(() => {
+    console.log("user 1", user);
+  }, []);
   const acceptEvent = (e) => {
     e.preventDefault();
     const currentUid = sessionStorage.getItem("uid");
@@ -35,6 +39,7 @@ export default function AddMarker({ ev, position }) {
   return position === null ? null : (
     <Marker position={position}>
       <PopUpWithLocation
+        user={user}
         ev={ev}
         position={position}
         acceptCallback={acceptEvent}
