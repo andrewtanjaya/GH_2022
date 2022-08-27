@@ -1,6 +1,6 @@
 .sos-btn {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   font-size: 28pt;
   font-weight: bold;
@@ -13,21 +13,25 @@
 }
 
 .sos-btn-content {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   font-size: 32pt;
   font-weight: bold;
   color: #ffffff;
   background-color: #ff4d4d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pulsating-circle {
   background-color: #ff4d4d;
   border-radius: 50%;
   animation: pulse-red 2s infinite;
-  height: 80px;
-  width: 80px;
+  position: relative;
+  height: 88px;
+  width: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,4 +52,20 @@
     transform: scale(0.9);
     box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
   }
+}
+
+.sos-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  padding: 0;
+  transform: translate(-48%, 0); // bottom: 72px;
+  left: 50%;
+  bottom: 80px;
+  background-color: black;
+  cursor: pointer;
 }

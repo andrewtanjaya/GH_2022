@@ -9,4 +9,15 @@ export const CAR_ACCIDENT = 'car accident';
 export const FIRE_BREAKOUT = 'fire breakout';
 export const CUSTOM = 'custom';
 
-export const DEFAULT_EVENT_TITLE = 'HELLO!'
+export const DEFAULT_EVENT_TITLE = 'HELLO!';
+
+export const FAINT_ICON =
+  'https://cdn-icons-png.flaticon.com/512/136/136300.png';
+export const ROBBERY_ICON =
+  'https://cdn-icons-png.flaticon.com/512/136/136300.png';
+export const CAR_ACCIDENT_ICON =
+  'https://cdn-icons-png.flaticon.com/512/136/136300.png';
+export const FIRE_BREAKOUT_ICON =
+  'https://cdn-icons-png.flaticon.com/512/136/136300.png';
+export const CUSTOM_ICON =
+  'https://cdn-icons-png.flaticon.com/512/136/136300.png';

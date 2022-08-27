@@ -3,7 +3,14 @@ import { Avatar, Button, Modal, List, Input } from 'antd';
 import { Event } from '../../Model/Event';
 import { addEvent, getEventByUID } from '../../Database';
 import SOSBtn from '../../Components/SOSBtn/SOSBtn';
-import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT, CUSTOM, DEFAULT_EVENT_TITLE } from '../../Constants';
+import {
+  FAINT,
+  ROBBERY,
+  CAR_ACCIDENT,
+  FIRE_BREAKOUT,
+  CUSTOM,
+  DEFAULT_EVENT_TITLE,
+} from '../../Constants';
 import { sendPush } from '../../Utils/Helper';
 import './SOSForm.scss';
 import { MdClose } from 'react-icons/md';
@@ -39,25 +46,24 @@ const data = [
 export default function SOSForm({ nearbyTokens }) {
   const [description, setDescription] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [template, setTemplate] = useState({})
+  const [template, setTemplate] = useState({});
 
   const triggerSOS = () => {
     let uid = sessionStorage.getItem('uid');
     let long = sessionStorage.getItem('longitude');
     let lat = sessionStorage.getItem('latitude');
-    let title = template.title ? template.title : DEFAULT_EVENT_TITLE
-    let desc = template.description ? template.description : description
-    let t = template.type ? template.type : CUSTOM
-    let event = new Event(uid, t,title, desc, long, lat, [])
-    getEventByUID(event.uid).then((e)=>{
-      if(e === null || e === {}) {
+    let title = template.title ? template.title : DEFAULT_EVENT_TITLE;
+    let desc = template.description ? template.description : description;
+    let t = template.type ? template.type : CUSTOM;
+    let event = new Event(uid, t, title, desc, long, lat, []);
+    getEventByUID(event.uid).then((e) => {
+      if (e === null || e === {}) {
         addEvent(event);
-        sendPush(nearbyTokens, new Event(uid, t,title, desc, long, lat, []));
-      }else{
-        alert("Dismiss ongoing event first!")
+        sendPush(nearbyTokens, new Event(uid, t, title, desc, long, lat, []));
+      } else {
+        alert('Dismiss ongoing event first!');
       }
-    })
-    
+    });
   };
 
   const showModal = () => {
@@ -74,13 +80,14 @@ export default function SOSForm({ nearbyTokens }) {
   };
 
   const onChange = (e) => {
-    setTemplate({})
+    setTemplate({});
     setDescription(e.target.value);
   };
 
   return (
     <>
       <SOSBtn callback={showModal} />
+
       <Modal
         title="SOS Alert"
         visible={isModalVisible}
@@ -106,9 +113,7 @@ export default function SOSForm({ nearbyTokens }) {
               onClick={() => {
                 setTemplate(item);
               }}
-              className={`sos-list-item ${
-                template === item ? 'active' : ''
-              }`}
+              className={`sos-list-item ${template === item ? 'active' : ''}`}
               extra={
                 template === item ? (
                   <BsCheckCircleFill

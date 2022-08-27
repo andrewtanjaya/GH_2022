@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+* {
+  font-family: 'Inter', sans-serif;
+}
+
 /* .App {
   text-align: center;
 }

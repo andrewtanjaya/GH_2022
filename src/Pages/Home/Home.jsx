@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Home.scss';
 import { useMapEvents } from 'react-leaflet/hooks';
 
-import { MapContainer, TileLayer, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle, Marker } from 'react-leaflet';
+import { divIcon } from 'leaflet';
 
 import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
@@ -44,18 +45,22 @@ function LocationMarker({ eventMarker, user }) {
     map.locate();
   }, []);
 
-  const fillBlueOptions = { fillColor: 'blue' };
-
+  const fillGreenOptions = { color: 'rgba(32, 255, 156, 0.5)' };
   return position === null ? (
     <></>
   ) : (
     <>
       <Circle
         center={position}
-        pathOptions={fillBlueOptions}
+        pathOptions={fillGreenOptions}
         radius={NOTIFICATION_RADIUS}
       />
-      <AddMarker user={user} event={eventMarker} position={position} />
+      <AddMarker
+        user={user}
+        event={eventMarker}
+        position={position}
+        currentUser={user}
+      />
     </>
   );
 }
@@ -153,13 +158,13 @@ export default function Home() {
   }, [notif]);
 
   const antIcon = (
-	<LoadingOutlined
-	  style={{
-		fontSize: 32,
-		color: "white"
-	  }}
-	  spin
-	/>
+    <LoadingOutlined
+      style={{
+        fontSize: 32,
+        color: 'white',
+      }}
+      spin
+    />
   );
 
   const openNotification = () => {
@@ -174,8 +179,7 @@ export default function Home() {
         <Space></Space>
         <SOSForm nearbyTokens={nearbyToken} />
         <SignOutBtn className="signout-btn" currentUser={currentUser} />
-        {
-		loading || loadingEvents || loadingAllUser ? (
+        {loading || loadingEvents || loadingAllUser ? (
           <div className="loading-popup">
             <Spin indicator={antIcon} />
           </div>
@@ -187,8 +191,8 @@ export default function Home() {
       <MapContainer
         id="map"
         center={[-6.17511, 106.865036]}
-        zoom={14}
-        scrollWheelZoom={false}
+        zoom={24}
+        scrollWheelZoom={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -231,6 +235,7 @@ export default function Home() {
                   lat: event.latitude,
                   lng: event.longitude,
                 }}
+                isEvent={true}
               />
             ) : (
               <></>
