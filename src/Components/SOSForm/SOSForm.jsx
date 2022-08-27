@@ -10,6 +10,14 @@ import {
   FIRE_BREAKOUT,
   CUSTOM,
   DEFAULT_EVENT_TITLE,
+  FAINT_ICON,
+  ROBBERY_ICON,
+  FIRE_BREAKOUT_ICON,
+  CAR_ACCIDENT_ICON,
+  FAINT_DESCRIPTION,
+  ROBBERY_DESCRIPTION,
+  CAR_ACCIDENT_DESCRIPTION,
+  FIRE_BREAKOUT_DESCRIPTION,
 } from '../../Constants';
 import { sendPush } from '../../Utils/Helper';
 import './SOSForm.scss';
@@ -19,26 +27,26 @@ import { BsCheckCircleFill } from 'react-icons/bs';
 const data = [
   {
     title: 'There is someone faint',
-    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde is required.',
+    icon: FAINT_ICON,
+    description: FAINT_DESCRIPTION,
     type: FAINT,
   },
   {
     title: 'There is robbery in my area',
-    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde is required.',
+    icon: ROBBERY_ICON,
+    description: ROBBERY_DESCRIPTION,
     type: ROBBERY,
   },
   {
     title: 'Car accident happened',
-    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde is required.',
+    icon: CAR_ACCIDENT_ICON,
+    description: CAR_ACCIDENT_DESCRIPTION,
     type: CAR_ACCIDENT,
   },
   {
     title: 'Fire breakout',
-    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde is required.',
+    icon: FIRE_BREAKOUT_ICON,
+    description: FIRE_BREAKOUT_DESCRIPTION,
     type: FIRE_BREAKOUT,
   },
 ];
