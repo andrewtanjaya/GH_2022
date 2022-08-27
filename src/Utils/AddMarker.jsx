@@ -56,7 +56,7 @@ export default function AddMarker({ event, position, user }) {
     >
       <PopUpWithLocation
         user={user}
-        event={event}
+        ev={event}
         position={position}
         acceptCallback={acceptEvent}
       />

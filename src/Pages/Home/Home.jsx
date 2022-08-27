@@ -153,14 +153,6 @@ export default function Home() {
 
       <SignOutBtn currentUser={currentUser} />
 
-      {loadingEvents ? (
-        <pre>loading Event please wait...</pre>
-      ) : (
-        events.map((event) => {
-          return event ? <EventMarker key={event.uid} ev={event} /> : <></>;
-        })
-      )}
-
       <MapContainer
         id="map"
         center={[-6.17511, 106.865036]}
@@ -190,6 +182,24 @@ export default function Home() {
                   lng: u.longitude,
                 }}
               />
+            );
+          })
+        )}
+        {loadingEvents ? (
+          <></>
+        ) : (
+          events.map((event) => {
+            return event ? (
+              <AddMarker
+                key={event.uid}
+                event={event}
+                position={{
+                  lat: event.latitude,
+                  lng: event.longitude,
+                }}
+              />
+            ) : (
+              <></>
             );
           })
         )}
