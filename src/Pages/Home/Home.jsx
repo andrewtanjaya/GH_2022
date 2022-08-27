@@ -71,6 +71,7 @@ export default function Home() {
   const [show, setShow] = useState(false);
   const [cachedUser, setCachedUser] = useState({});
   const [nearbyUser, setNearbyUser] = useState([]);
+  const [nearbyEvent, setNearbyEvent] = useState([]);
   const [nearbyToken, setNearbyToken] = useState([]);
   const [network, setNetwork] = useState(1);
 
@@ -108,23 +109,35 @@ export default function Home() {
 
   useEffect(() => {
     if (allUser && currentUser) {
-      setNearbyUser(allUser.filter(isBetweenRadiusAndNotCurrentUser));
-      setNearbyToken(
-        nearbyUser.map((user) => {
-          return user.token;
+      setNearbyUser(
+        allUser.filter((u) => {
+          return isBetweenRadius(u) && u.uid !== currentUser[0].uid;
         }),
       );
+      let tok = nearbyUser.map((user) => {
+        return user.token;
+      });
+      tok = tok.filter((u) => {
+        return u !== '' ;
+      });
+      setNearbyToken(tok);
     }
   }, [allUser]);
 
-  const isBetweenRadiusAndNotCurrentUser = (u) => {
+  useEffect(() => {
+    if (events && currentUser) {
+      setNearbyEvent(events.filter(isBetweenRadius));
+    }
+  }, [events]);
+
+  const isBetweenRadius = (u) => {
     return (
       getDistanceFromLatLonInM(
         u.latitude,
         u.longitude,
         currentUser[0].latitude,
         currentUser[0].longitude,
-      ) <= NOTIFICATION_RADIUS && u.uid !== currentUser[0].uid
+      ) <= NOTIFICATION_RADIUS 
     );
   };
 
@@ -225,7 +238,7 @@ export default function Home() {
         {loadingEvents ? (
           <></>
         ) : (
-          events.map((event) => {
+          nearbyEvent.map((event) => {
             return event ? (
               <AddMarker
                 currentUser={currentUser}
