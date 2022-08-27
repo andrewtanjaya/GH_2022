@@ -9,9 +9,10 @@ import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
 import AddMarker from '../../Utils/AddMarker';
 
-import GetCurrentLocation from '../../Utils/GetCurrentPosition';
-
 import { eventRef, onMessageListener, usersRef } from '../../Firebase';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+
 import {
   NOTIFICATION_RADIUS,
   PAGE_MODE_OFFLINE,
@@ -58,7 +59,7 @@ function LocationMarker({ eventMarker, user }) {
         user={user}
         event={eventMarker}
         position={position}
-        isCurrentUser={true}
+        currentUser={user}
       />
     </>
   );
@@ -68,7 +69,6 @@ export default function Home() {
 
   const [notif, setNotification] = useState({ title: '', body: '' });
   const [show, setShow] = useState(false);
-  const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
   const [nearbyUser, setNearbyUser] = useState([]);
   const [nearbyToken, setNearbyToken] = useState([]);
@@ -157,6 +157,16 @@ export default function Home() {
     }
   }, [notif]);
 
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 32,
+        color: 'white',
+      }}
+      spin
+    />
+  );
+
   const openNotification = () => {
     notification.open({
       message: notif.title,
@@ -167,8 +177,15 @@ export default function Home() {
     <div>
       <div className="action-panel">
         <Space></Space>
-        <SignOutBtn currentUser={currentUser} />
         <SOSForm nearbyTokens={nearbyToken} />
+        <SignOutBtn className="signout-btn" currentUser={currentUser} />
+        {loading || loadingEvents || loadingAllUser ? (
+          <div className="loading-popup">
+            <Spin indicator={antIcon} />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
 
       <MapContainer
@@ -211,6 +228,7 @@ export default function Home() {
           events.map((event) => {
             return event ? (
               <AddMarker
+                currentUser={currentUser}
                 key={event.uid}
                 event={event}
                 position={{
@@ -225,8 +243,6 @@ export default function Home() {
           })
         )}
       </MapContainer>
-
-      <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );
 }

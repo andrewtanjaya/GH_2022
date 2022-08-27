@@ -15,8 +15,6 @@ export default function UserMarkerIcon({ url, isCurrentUser, isEvent }) {
     });
   }
 
-  console.log(isEvent);
-
   if (isEvent) {
     const currentUserMarkup = () =>
       renderToStaticMarkup(

@@ -10,7 +10,7 @@ export default function AddMarker({
   event,
   position,
   user,
-  isCurrentUser,
+  currentUser,
   isEvent,
 }) {
   /*
@@ -21,39 +21,48 @@ export default function AddMarker({
 	 }
 	*/
   const dismissEvent = () => {
-    const currentUid = sessionStorage.getItem('uid');
+    const currentUid = currentUser[0].uid;
     if (currentUid === event.uid) {
       deleteEvent(currentUid);
     } else {
       alert('Cannot dismiss others event');
     }
   };
-
   const acceptEvent = (e) => {
     e.preventDefault();
-    const currentUid = sessionStorage.getItem('uid');
-    if (currentUid !== event.uid) {
-      if (event.accepted_uids && event.accepted_uids.length > 0) {
-        if (!event.accepted_uids.includes(currentUid)) {
-          event.accepted_uids.push(currentUid);
-          updateAccepted(event.uid, event.accepted_uids);
+    var found = false;
+    const currentUid = currentUser[0].uid;
+    for (let i = 0; i < event.accepted_uids.length; i++) {
+      if (event.accepted_uids[i].uid === currentUid) {
+        found = true;
+        break;
+      }
+    }
+
+    let newAccept = { uid: currentUid, photoUrl: currentUser[0].photoUrl };
+    if (event) {
+      if (currentUid !== event.uid) {
+        if (event.accepted_uids && event.accepted_uids.length > 0) {
+          if (!found) {
+            event.accepted_uids.push(newAccept);
+            updateAccepted(event.uid, event.accepted_uids);
+          } else {
+            alert('You have accepted this event');
+          }
         } else {
-          alert('You have accepted this event');
+          if (event.accepted_uids) {
+            event.accepted_uids[0] = newAccept;
+          } else {
+            event.accepted_uids = [];
+            event.accepted_uids.push(newAccept);
+          }
+          updateAccepted(event.uid, event.accepted_uids);
         }
       } else {
-        if (event.accepted_uids) {
-          event.accepted_uids[0] = currentUid;
-        } else {
-          event.accepted_uids = [];
-          event.accepted_uids.push(currentUid);
-        }
-        updateAccepted(event.uid, event.accepted_uids);
+        alert('Cannot accept your own event');
       }
-    } else {
-      alert('Cannot accept your own event');
     }
   };
-
   return position === null && user ? null : (
     <Marker
       position={position}
@@ -61,7 +70,7 @@ export default function AddMarker({
         user
           ? UserMarkerIcon({
               url: user.photoUrl,
-              isCurrentUser: isCurrentUser,
+              isCurrentUser: currentUser ? true : false,
               isEvent: false,
             })
           : UserMarkerIcon({
