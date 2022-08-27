@@ -1,15 +1,12 @@
 import React from 'react';
-import { addEvent, deleteEvent } from '../../Database';
-import SOSForm from '../SOSForm/SOSForm';
+import './SOSBtn.scss';
 
-function SOSBtn({ myEvent }) {
-  const triggerSOS = () => {
-    console.log(myEvent);
-    addEvent(myEvent);
-  };
+function SOSBtn({ callback }) {
   return (
-    <div>
-      <button onClick={triggerSOS}>SOS</button>
+    <div className="pulsating-circle sos-btn-container">
+      <button onClick={callback} className="sos-btn">
+        <div className="sos-btn-content"> !</div>
+      </button>
     </div>
   );
 }

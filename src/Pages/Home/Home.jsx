@@ -166,10 +166,8 @@ export default function Home() {
     <div>
       <div className="action-panel">
         <Space></Space>
-
-        <SOSForm nearbyTokens={nearbyToken}/>
-
         <SignOutBtn currentUser={currentUser} />
+        <SOSForm nearbyTokens={nearbyToken} />
       </div>
 
       <MapContainer
@@ -225,6 +223,8 @@ export default function Home() {
           })
         )}
       </MapContainer>
+
+      <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );
 }

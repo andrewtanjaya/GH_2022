@@ -2,33 +2,47 @@ import { useState } from 'react';
 import { Avatar, Button, Modal, List, Input } from 'antd';
 import { Event } from '../../Model/Event';
 import { addEvent } from '../../Database';
+import SOSBtn from '../../Components/SOSBtn/SOSBtn';
+import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT } from '../../Constants';
 import { sendPush } from '../../Utils/Helper';
 
 const data = [
   {
-    title: 'Ant Design Title 1',
+    title: 'There is someone faint',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: FAINT,
   },
   {
-    title: 'Ant Design Title 2',
+    title: 'There is robbery in my area',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: ROBBERY,
   },
   {
-    title: 'Ant Design Title 3',
+    title: 'Car accident happened',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: CAR_ACCIDENT,
   },
   {
-    title: 'Ant Design Title 4',
+    title: 'Fire breakout',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: FIRE_BREAKOUT,
   },
 ];
 
-export default function SOSForm({nearbyTokens}) {
+export default function SOSForm({ nearbyTokens }) {
   const [description, setDescription] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const triggerSOS = () => {
-    let uid = sessionStorage.getItem("uid")
-    let long = sessionStorage.getItem("longitude")
-    let lat = sessionStorage.getItem("latitude")
-    addEvent(new Event(uid, "SOS", description,long, lat,[]));
-    sendPush(nearbyTokens)
+    let uid = sessionStorage.getItem('uid');
+    let long = sessionStorage.getItem('longitude');
+    let lat = sessionStorage.getItem('latitude');
+    addEvent(new Event(uid, 'SOS', description, long, lat, []));
+    sendPush(nearbyTokens);
   };
 
   const showModal = () => {
@@ -37,7 +51,7 @@ export default function SOSForm({nearbyTokens}) {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    triggerSOS()
+    triggerSOS();
   };
 
   const handleCancel = () => {
@@ -51,11 +65,9 @@ export default function SOSForm({nearbyTokens}) {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
+      <SOSBtn callback={showModal} />
       <Modal
-        title="SOS Modal"
+        title="SOS Alert"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -67,13 +79,13 @@ export default function SOSForm({nearbyTokens}) {
           renderItem={(item) => (
             <List.Item
               onClick={() => {
-                setDescription(item.title);
+                setDescription(item.type);
               }}
             >
               <List.Item.Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                avatar={<Avatar src={item.imgUrl} />}
                 title={item.title}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                description={item.description}
               />
             </List.Item>
           )}
