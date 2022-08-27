@@ -4,6 +4,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore , collection} from '@firebase/firestore';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import { addUser, getUserByUID } from './Database';
+import GetCurrentLocation from './Utils/GetCurrentPosition';
+import { User } from './Model/User';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
