@@ -11,7 +11,7 @@ import AddMarker from '../../Utils/AddMarker';
 import GetCurrentLocation from '../../Utils/GetCurrentPosition';
 
 import { auth, eventRef, onMessageListener, usersRef } from '../../Firebase';
-import { PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from '../../Constants';
+import { NOTIFICATION_RADIUS, PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from '../../Constants';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { query, where } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -19,6 +19,7 @@ import SOSBtn from '../../Components/SOSBtn/SOSBtn';
 import { Event } from '../../Model/Event';
 import EventMarker from '../../Components/EventMarker/EventMarker';
 import { updatePosition } from '../../Database';
+import { getDistanceFromLatLonInM } from '../../Utils/Helper';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -51,6 +52,7 @@ export default function Home() {
   const [show, setShow] = useState(false);
   const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
+  const [nearbyUser, setNearbyUser] = useState([])
 
   const [mockEvent, setMockEvent] = useState(
     new Event(
@@ -77,6 +79,23 @@ export default function Home() {
   const [allUser, loadingAllUser, errorAllUser] = useCollectionData(usersRef, {
     idField: 'uid',
   });
+
+  useEffect(() => {
+    if (allUser && currentUser) {
+      setNearbyUser(allUser.filter(isBetweenRadiusAndNotCurrentUser));
+    }
+  }, [allUser]);
+
+  const isBetweenRadiusAndNotCurrentUser = (u) => {
+    return (
+      getDistanceFromLatLonInM(
+        u.latitude,
+        u.longitude,
+        currentUser[0].latitude,
+        currentUser[0].longitude,
+      ) <= NOTIFICATION_RADIUS && u.uid !== currentUser[0].uid
+    );
+  };
 
   useEffect(() => {
     if (error) {
@@ -172,7 +191,7 @@ export default function Home() {
         {loadingAllUser ? (
           <></>
         ) : (
-          allUser.map((u) => {
+          nearbyUser.map((u) => {
             return (
               <AddMarker
                 key={u.uid}
