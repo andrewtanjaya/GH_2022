@@ -5,7 +5,7 @@ import { deleteEvent, updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
-export default function AddMarker({ event, position, user }) {
+export default function AddMarker({ currentUser, event, position, user }) {
   /*
 	description: string
 	position : {
@@ -15,7 +15,7 @@ export default function AddMarker({ event, position, user }) {
 	*/
 
 	const dismissEvent = () =>{
-		const currentUid = sessionStorage.getItem('uid');
+		const currentUid = currentUser[0].uid;
 		if(currentUid === event.uid){
 			deleteEvent(currentUid)
 		}else{
@@ -25,27 +25,37 @@ export default function AddMarker({ event, position, user }) {
 
   const acceptEvent = (e) => {
     e.preventDefault();
-    const currentUid = sessionStorage.getItem('uid');
-    if (currentUid !== event.uid) {
-      if (event.accepted_uids && event.accepted_uids.length > 0) {
-        if (!event.accepted_uids.includes(currentUid)) {
-          event.accepted_uids.push(currentUid);
-          updateAccepted(event.uid, event.accepted_uids);
-        } else {
-          alert('You have accepted this event');
-        }
-      } else {
-        if (event.accepted_uids) {
-          event.accepted_uids[0] = currentUid;
-        } else {
-          event.accepted_uids = [];
-          event.accepted_uids.push(currentUid);
-        }
-        updateAccepted(event.uid, event.accepted_uids);
-      }
-    } else {
-      alert('Cannot accept your own event');
-    }
+	var found = false;
+	const currentUid = currentUser[0].uid;
+	for(let i = 0; i< event.accepted_uids;i++){
+		if(event.accepted_uids[i] === currentUid){
+			found = true
+			break
+		}
+	}
+    let newAccept = { uid: currentUid, photoUrl: currentUser[0].photoUrl };
+    if(event){
+		if (currentUid !== event.uid) {
+			if (event.accepted_uids && event.accepted_uids.length > 0) {
+			  if (!found) {
+				event.accepted_uids.push(newAccept);
+				updateAccepted(event.uid, event.accepted_uids);
+			  } else {
+				alert('You have accepted this event');
+			  }
+			} else {
+			  if (event.accepted_uids) {
+				event.accepted_uids[0] = newAccept;
+			  } else {
+				event.accepted_uids = [];
+				event.accepted_uids.push(newAccept);
+			  }
+			  updateAccepted(event.uid, event.accepted_uids);
+			}
+		  } else {
+			alert('Cannot accept your own event');
+		  }
+	}
   };
 
   return position === null && user ? null : (
@@ -54,7 +64,7 @@ export default function AddMarker({ event, position, user }) {
       icon={
         user
           ? UserMarkerIcon({ url: user.photoUrl })
-          : UserMarkerIcon({ url: './assets/event.png' })
+          : UserMarkerIcon({ url: './asset/event.png' })
       }
     >
       <PopUpWithLocation

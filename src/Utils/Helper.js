@@ -22,8 +22,9 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-export const sendPush = (deviceTokens) => {
+export const sendPush = (deviceTokens, event) => {
   console.log('send push to', deviceTokens);
+  console.log("event", event)
   const url = 'https://fcm.googleapis.com/fcm/send';
 
   fetch(url, {
@@ -31,8 +32,8 @@ export const sendPush = (deviceTokens) => {
     body: JSON.stringify({
       registration_ids: deviceTokens,
       notification: {
-        title: 'Test Notif From App',
-        body: 'Test Notif From App',
+        title: event.title,
+        body: event.description,
       },
     }),
     headers: {
