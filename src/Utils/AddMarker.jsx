@@ -37,7 +37,14 @@ export default function AddMarker({ event, position, user }) {
   };
 
   return position === null && user ? null : (
-    <Marker position={position} icon={UserMarkerIcon({ url: user.photoUrl })}>
+    <Marker
+      position={position}
+      icon={
+        user
+          ? UserMarkerIcon({ url: user.photoUrl })
+          : UserMarkerIcon({ url: './assets/event.png' })
+      }
+    >
       <PopUpWithLocation
         user={user}
         event={event}

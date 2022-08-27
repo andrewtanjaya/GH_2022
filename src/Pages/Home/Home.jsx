@@ -11,7 +11,11 @@ import AddMarker from '../../Utils/AddMarker';
 import GetCurrentLocation from '../../Utils/GetCurrentPosition';
 
 import { auth, eventRef, onMessageListener, usersRef } from '../../Firebase';
-import { PAGE_MODE_OFFLINE, PAGE_MODE_ONLINE } from '../../Constants';
+import {
+  NOTIFICATION_RADIUS,
+  PAGE_MODE_OFFLINE,
+  PAGE_MODE_ONLINE,
+} from '../../Constants';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { query, where } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -19,6 +23,7 @@ import SOSBtn from '../../Components/SOSBtn/SOSBtn';
 import { Event } from '../../Model/Event';
 import EventMarker from '../../Components/EventMarker/EventMarker';
 import { updatePosition } from '../../Database';
+import { getDistanceFromLatLonInM, sendPush } from '../../Utils/Helper';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -49,7 +54,6 @@ function LocationMarker({ eventMarker, user }) {
     </>
   );
 }
-
 export default function Home() {
   const [mode, setMode] = useState(PAGE_MODE_ONLINE);
 
@@ -57,6 +61,8 @@ export default function Home() {
   const [show, setShow] = useState(false);
   const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
+  const [nearbyUser, setNearbyUser] = useState([]);
+  const [nearbyToken, setNearbyToken] = useState([]);
 
   const [mockEvent, setMockEvent] = useState(
     new Event(
@@ -85,6 +91,28 @@ export default function Home() {
   });
 
   useEffect(() => {
+    if (allUser && currentUser) {
+      setNearbyUser(allUser.filter(isBetweenRadiusAndNotCurrentUser));
+      setNearbyToken(
+        nearbyUser.map((user) => {
+          return user.token;
+        }),
+      );
+    }
+  }, [allUser]);
+
+  const isBetweenRadiusAndNotCurrentUser = (u) => {
+    return (
+      getDistanceFromLatLonInM(
+        u.latitude,
+        u.longitude,
+        currentUser[0].latitude,
+        currentUser[0].longitude,
+      ) <= NOTIFICATION_RADIUS && u.uid !== currentUser[0].uid
+    );
+  };
+
+  useEffect(() => {
     if (error) {
       setMode(PAGE_MODE_OFFLINE);
       setCachedUser(localStorage.getItem('user'));
@@ -106,33 +134,6 @@ export default function Home() {
     })
     .catch((err) => console.log('failed: ', err));
 
-  const sendPush = () => {
-    const url = 'https://fcm.googleapis.com/fcm/send';
-
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        registration_ids: deviceTokens,
-        notification: {
-          title: 'Test Notif From App',
-          body: 'Test Notif From App',
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Connection: 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br',
-        Host: '<calculated when request is sent>',
-        'Content-Length': '<calculated when request is sent>',
-        Accept: '*/*',
-        Authorization:
-          'key=' + process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API,
-      },
-    })
-      .then((response) => response.text())
-      .then((html) => console.log(html));
-  };
-
   return (
     <div>
       {mode === PAGE_MODE_OFFLINE ? (
@@ -153,18 +154,17 @@ export default function Home() {
         <pre>{JSON.stringify(currentUser)}</pre>
       )}
 
-      <button onClick={sendPush}>Send Notif</button>
+      <button
+        onClick={() => {
+          sendPush(nearbyToken);
+        }}
+      >
+        Send Notif
+      </button>
 
       <SOSBtn myEvent={mockEvent} />
-      <SignOutBtn currentUser={currentUser} />
 
-      {loadingEvents ? (
-        <pre>loading Event please wait...</pre>
-      ) : (
-        events.map((event) => {
-          return event ? <EventMarker key={event.uid} ev={event} /> : <></>;
-        })
-      )}
+      <SignOutBtn currentUser={currentUser} />
 
       <MapContainer
         id="map"
@@ -187,7 +187,7 @@ export default function Home() {
         {loadingAllUser ? (
           <></>
         ) : (
-          allUser.map((u) => {
+          nearbyUser.map((u) => {
             return (
               <AddMarker
                 key={u.uid}
@@ -197,6 +197,24 @@ export default function Home() {
                   lng: u.longitude,
                 }}
               />
+            );
+          })
+        )}
+        {loadingEvents ? (
+          <></>
+        ) : (
+          events.map((event) => {
+            return event ? (
+              <AddMarker
+                key={event.uid}
+                event={event}
+                position={{
+                  lat: event.latitude,
+                  lng: event.longitude,
+                }}
+              />
+            ) : (
+              <></>
             );
           })
         )}

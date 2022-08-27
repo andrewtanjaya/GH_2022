@@ -7,7 +7,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { eventRef, usersRef } from './Firebase';
-import { denullify } from './Helper';
+import { denullify } from './Utils/Helper';
 import { User } from './Model/User';
 
 export const addUser = async (user, token) => {
