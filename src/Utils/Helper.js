@@ -3,23 +3,9 @@ export const denullify = (text) => {
   return text;
 };
 
-export const CalculateDistance = (lat1, long1, lat2, long2)=>{
-	var distance =
-		Math.sin(lat1 * Math.PI) * Math.sin(lat2 * Math.PI) +
-		Math.cos(lat1 * Math.PI) *
-			Math.cos(lat2 * Math.PI) *
-			Math.cos(Math.abs(long1 - long2) * Math.PI);
-
-	// Return the distance in miles
-	//return Math.acos(distance) * 3958.754;
-
-	// Return the distance in meters
-	return Math.acos(distance) * 6370981.162;
-}
-
 export function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var R = 6371;
+  var dLat = deg2rad(lat2-lat1); 
   var dLon = deg2rad(lon2-lon1); 
   var a = 
     Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -27,10 +13,38 @@ export function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
     Math.sin(dLon/2) * Math.sin(dLon/2)
     ; 
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c; // Distance in km
+  var d = R * c;
   return d*1000;
 }
 
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
+
+export const sendPush = (deviceTokens) => {
+  console.log('send push to', deviceTokens);
+  const url = 'https://fcm.googleapis.com/fcm/send';
+
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      registration_ids: deviceTokens,
+      notification: {
+        title: 'Test Notif From App',
+        body: 'Test Notif From App',
+      },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Connection: 'keep-alive',
+      'Accept-Encoding': 'gzip, deflate, br',
+      Host: '<calculated when request is sent>',
+      'Content-Length': '<calculated when request is sent>',
+      Accept: '*/*',
+      Authorization:
+        'key=' + process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API,
+    },
+  })
+    .then((response) => response.text())
+    .then((html) => console.log(html));
+};

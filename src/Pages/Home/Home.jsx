@@ -19,7 +19,7 @@ import SOSBtn from '../../Components/SOSBtn/SOSBtn';
 import { Event } from '../../Model/Event';
 import EventMarker from '../../Components/EventMarker/EventMarker';
 import { updatePosition } from '../../Database';
-import { getDistanceFromLatLonInM } from '../../Utils/Helper';
+import { getDistanceFromLatLonInM, sendPush } from '../../Utils/Helper';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -53,6 +53,7 @@ export default function Home() {
   const [deviceTokens, setDeviceTokens] = useState([]);
   const [cachedUser, setCachedUser] = useState({});
   const [nearbyUser, setNearbyUser] = useState([])
+  const [nearbyToken, setNearbyToken] = useState([])
 
   const [mockEvent, setMockEvent] = useState(
     new Event(
@@ -83,6 +84,7 @@ export default function Home() {
   useEffect(() => {
     if (allUser && currentUser) {
       setNearbyUser(allUser.filter(isBetweenRadiusAndNotCurrentUser));
+	  setNearbyToken(nearbyUser.map((user)=>{return user.token}))
     }
   }, [allUser]);
 
@@ -119,33 +121,6 @@ export default function Home() {
     })
     .catch((err) => console.log('failed: ', err));
 
-  const sendPush = () => {
-    const url = 'https://fcm.googleapis.com/fcm/send';
-
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        registration_ids: deviceTokens,
-        notification: {
-          title: 'Test Notif From App',
-          body: 'Test Notif From App',
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Connection: 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br',
-        Host: '<calculated when request is sent>',
-        'Content-Length': '<calculated when request is sent>',
-        Accept: '*/*',
-        Authorization:
-          'key=' + process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API,
-      },
-    })
-      .then((response) => response.text())
-      .then((html) => console.log(html));
-  };
-
   return (
     <div>
       {mode === PAGE_MODE_OFFLINE ? (
@@ -166,7 +141,7 @@ export default function Home() {
         <pre>{JSON.stringify(currentUser)}</pre>
       )}
 
-      <button onClick={sendPush}>Send Notif</button>
+      <button onClick={()=>{sendPush(nearbyToken)}}>Send Notif</button>
 
       <SOSBtn myEvent={mockEvent} />
 
