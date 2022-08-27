@@ -19,7 +19,9 @@ export default function AddMarker({ event, position, user }) {
 	 	lng: 106.790108,
 	 }
 	*/
-
+	 useEffect(()=>{
+		console.log("event", event)
+	 },[])
   const acceptEvent = (e) => {
     e.preventDefault();
     const currentUid = sessionStorage.getItem('uid');
@@ -56,7 +58,7 @@ export default function AddMarker({ event, position, user }) {
     >
       <PopUpWithLocation
         user={user}
-        event={event}
+        ev={event}
         position={position}
         acceptCallback={acceptEvent}
       />
