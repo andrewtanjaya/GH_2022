@@ -24,6 +24,7 @@ import { Event } from '../../Model/Event';
 import EventMarker from '../../Components/EventMarker/EventMarker';
 import { updatePosition } from '../../Database';
 import { getDistanceFromLatLonInM, sendPush } from '../../Utils/Helper';
+import SOSForm from '../../Components/SOSForm/SOSForm';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -35,6 +36,8 @@ function LocationMarker({ eventMarker, user }) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
 
+      sessionStorage.setItem('longitude', e.latlng.lng);
+      sessionStorage.setItem('latitude', e.latlng.lat);
       updatePosition(sessionStorage.getItem('uid'), e.latlng);
     },
   });
@@ -166,6 +169,8 @@ export default function Home() {
         >
           Send Notif
         </button>
+
+        <SOSForm />
 
         <SignOutBtn currentUser={currentUser} />
       </div>

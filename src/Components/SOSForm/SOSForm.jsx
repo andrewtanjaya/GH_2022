@@ -1,24 +1,47 @@
 import { useState } from 'react';
 import { Avatar, Button, Modal, List, Input } from 'antd';
+import { Event } from '../../Model/Event';
+import { addEvent } from '../../Database';
+import SOSBtn from '../../Components/SOSBtn/SOSBtn';
+import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT } from '../../Constants';
 
 const data = [
   {
-    title: 'Ant Design Title 1',
+    title: 'There is someone faint',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: FAINT,
   },
   {
-    title: 'Ant Design Title 2',
+    title: 'There is robbery in my area',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: ROBBERY,
   },
   {
-    title: 'Ant Design Title 3',
+    title: 'Car accident happened',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: CAR_ACCIDENT,
   },
   {
-    title: 'Ant Design Title 4',
+    title: 'Fire breakout',
+    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde or doctor is required.',
+    type: FIRE_BREAKOUT,
   },
 ];
 
 export default function SOSForm() {
-  const [sosType, setSosType] = useState('');
+  const [description, setDescription] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const triggerSOS = () => {
+    let uid = sessionStorage.getItem('uid');
+    let long = sessionStorage.getItem('longitude');
+    let lat = sessionStorage.getItem('latitude');
+    addEvent(new Event(uid, 'SOS', description, long, lat, []));
+  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -26,8 +49,7 @@ export default function SOSForm() {
 
   const handleOk = () => {
     setIsModalVisible(false);
-
-    // add SOS
+    triggerSOS();
   };
 
   const handleCancel = () => {
@@ -35,35 +57,33 @@ export default function SOSForm() {
   };
 
   const onChange = (e) => {
-    setSosType(e.target.value);
-    console.log(sosType);
+    setDescription(e.target.value);
+    console.log(description);
   };
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
+      <SOSBtn callback={showModal} />
       <Modal
-        title="SOS Modal"
+        title="SOS Alert"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <p>{sosType}</p>
+        <p>{description}</p>
         <List
           itemLayout="horizontal"
           dataSource={data}
           renderItem={(item) => (
             <List.Item
               onClick={() => {
-                setSosType(item.title);
+                setDescription(item.type);
               }}
             >
               <List.Item.Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                avatar={<Avatar src={item.imgUrl} />}
                 title={item.title}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                description={item.description}
               />
             </List.Item>
           )}
