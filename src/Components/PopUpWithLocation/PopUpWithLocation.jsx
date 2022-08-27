@@ -14,16 +14,9 @@ function PopUpDescription({ event, user }) {
   }
 }
 
-export default function PopUpWithLocation({
-  user,
-  event,
-  position,
-  acceptCallback,
-}) {
-  useEffect(() => {
-    console.log('user', user);
-  }, []);
 
+
+export default function PopUpWithLocation({ user, ev, position, acceptCallback}) {
   return (
     <Popup>
       <PopUpDescription event={event} user={user} />

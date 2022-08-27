@@ -102,7 +102,6 @@ export default function Home() {
     .catch((err) => console.log('failed: ', err));
 
   const sendPush = () => {
-    console.log(process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_KEY_API);
 
     const url = 'https://fcm.googleapis.com/fcm/send';
 

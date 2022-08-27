@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore, collection } from '@firebase/firestore';
@@ -7,11 +8,6 @@ import { addUser, getUserByUID } from './Database';
 import GetCurrentLocation from './Utils/GetCurrentPosition';
 import { User } from './Model/User';
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -22,7 +18,6 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MESAUREMENT_ID,
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
@@ -32,10 +27,11 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
-      sessionStorage.setItem('uid', result.user.uid);
+      sessionStorage.setItem("uid", result.user.uid);
       getUserByUID(result.user.uid).then((userById) => {
         if (userById === null || userById === {})
-          addUser(result.user, sessionStorage.getItem('token'));
+          addUser(result.user, sessionStorage.getItem("token"));
+		else updateToken(sessionStorage.getItem("token"),result.user)
       });
     })
     .catch((error) => {
