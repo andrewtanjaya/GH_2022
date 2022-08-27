@@ -21,9 +21,11 @@ const messaging = getMessaging(app);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => {
+export const signInWithGoogle = (setLoading) => {
+  setLoading(true);
   signInWithPopup(auth, provider)
     .then((result) => {
+      setLoading(false);
       sessionStorage.setItem('uid', result.user.uid);
       getUserByUID(result.user.uid).then((userById) => {
         if (userById === null || userById === {})
@@ -32,6 +34,7 @@ export const signInWithGoogle = () => {
       });
     })
     .catch((error) => {
+      setLoading(false);
       console.log(error);
     });
 };
