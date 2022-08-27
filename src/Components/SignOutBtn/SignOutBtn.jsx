@@ -1,5 +1,7 @@
 import { updateToken } from '../../Database';
 import { auth } from '../../Firebase';
+import {IoCloseOutline} from 'react-icons/io5'
+import './SignOutBtn.scss'
 
 export default function SignOutBtn({ currentUser }) {
   const signOut = () => {
@@ -10,5 +12,11 @@ export default function SignOutBtn({ currentUser }) {
     sessionStorage.removeItem('token', currentUser);
     auth.signOut();
   };
-  return auth.currentUser && <button onClick={signOut}>Sign Out</button>;
+  return (
+    auth.currentUser && (
+      <div className="signout-btn">
+        <IoCloseOutline color={"#ff4d4d"} size={'40px'} onClick={signOut} />
+      </div>
+    )
+  );
 }
