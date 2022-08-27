@@ -1,7 +1,7 @@
 import { Marker } from 'react-leaflet';
 
 import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
-import { deleteEvent, updateAccepted } from '../Database';
+import { updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
@@ -14,17 +14,6 @@ export default function AddMarker({ event, position, user }) {
 	 }
 	*/
 
-  const dismissEvent = (e) => {
-    e.preventDefault();
-	console.log("called")
-	const currentUid = sessionStorage.getItem("uid")
-	if(currentUid === event.uid){
-		deleteEvent(currentUid)
-	}else{
-		alert("Cannot dismiss not your own event!")
-	}
-  };
-
   const acceptEvent = (e) => {
     e.preventDefault();
     const currentUid = sessionStorage.getItem('uid');
@@ -32,15 +21,18 @@ export default function AddMarker({ event, position, user }) {
       if (event.accepted_uids && event.accepted_uids.length > 0) {
         if (!event.accepted_uids.includes(currentUid)) {
           event.accepted_uids.push(currentUid);
-          updateAccepted(event.uid, currentUid);
+          updateAccepted(event.uid, event.accepted_uids);
         } else {
           alert('You have accepted this event');
         }
       } else {
-        const uids = event.accepted_uids
-          ? (event.accepted_uids[0] = currentUid)
-          : [currentUid];
-        updateAccepted(event.uid, uids);
+        if (event.accepted_uids) {
+          event.accepted_uids[0] = currentUid;
+        } else {
+          event.accepted_uids = [];
+          event.accepted_uids.push(currentUid);
+        }
+        updateAccepted(event.uid, event.accepted_uids);
       }
     } else {
       alert('Cannot accept your own event');
@@ -61,7 +53,6 @@ export default function AddMarker({ event, position, user }) {
         event={event}
         position={position}
         acceptCallback={acceptEvent}
-        dismissCallback={dismissEvent}
       />
     </Marker>
   );

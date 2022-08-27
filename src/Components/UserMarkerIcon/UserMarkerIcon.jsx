@@ -14,10 +14,10 @@ export default function UserMarkerIcon({ url }) {
   const iconMarkup = (url) =>
     renderToStaticMarkup(
       <div className="marker-user-icon-marker">
-                <img
+        <img
           src={url}
           className="marker-user-icon-img"
-          referrerpolicy="no-referrer"
+          referrerPolicy="no-referrer"
         />
       </div>,
     );
