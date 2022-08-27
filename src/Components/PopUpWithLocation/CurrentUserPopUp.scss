@@ -1,26 +1,34 @@
-.pop-up-container {
-  position: relative;
-  width: 100%;
+@mixin flex-center() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: cyan;
+}
+
+@mixin remove-deafult-btn-look() {
+  border: none;
+  background-color: transparent;
+}
+
+.popup-container {
+  @include flex-center();
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  //   background-color: cyan;
 }
 
 .popup-user {
   &-avatar {
+    @include flex-center();
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 50%;
     width: 36px;
     height: 36px;
     background-color: black;
     &-img {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-center();
       position: relative;
       border-radius: 50%;
       width: 36px;
@@ -28,4 +36,21 @@
       object-fit: cover;
     }
   }
+
+  &-name {
+    font-weight: bold;
+  }
+
+  &-location-btn {
+    @include remove-deafult-btn-look();
+    @include flex-center();
+    font-size: 16pt;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px !important;
+  }
+}
+
+.leaflet-popup-content-wrapper {
+  //   border-radius: 0px;
+  padding: 0.3rem;
 }
