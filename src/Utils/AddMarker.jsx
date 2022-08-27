@@ -1,15 +1,37 @@
 import { useEffect } from 'react';
 import { Marker } from 'react-leaflet';
 
+import { renderToStaticMarkup } from 'react-dom/server';
+
 import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation';
 import { updateAccepted } from '../Database';
 
-import { Icon } from 'leaflet';
+import { Icon, divIcon } from 'leaflet';
+import './AddMarker.scss';
 
-// export const icon = new Icon({
-//   iconUrl: '/skateboarding.svg',
-//   iconSize: [25, 25],
+// function GetIcon({user}) {
+//   if (user){
+//       user.
+//   }
+//   reutn user ? user.photoUrl : './MarkerAsset/event.png',
+// }
+
+// const icon = L.divIcon({
+//   className: 'custom-icon',
+//   html: ReactDOMServer.renderToString(<Icon perc={this.state.key} />),
 // });
+
+const iconMarkup = (url) =>
+  renderToStaticMarkup(
+    <div className="markeruser-icon-marker">
+      <img src={url} className="markeruser-icon-marker-img" alt="" />
+    </div>,
+  );
+
+const customMarkerIcon = (url) =>
+  divIcon({
+    html: iconMarkup(url),
+  });
 
 export default function AddMarker({ event, position, user }) {
   /*
@@ -43,17 +65,7 @@ export default function AddMarker({ event, position, user }) {
   };
 
   return position === null && user ? null : (
-    <Marker
-      position={position}
-      icon={
-        new Icon({
-          iconUrl: user
-            ? 'https://cdn.icon-icons.com/icons2/2596/PNG/512/thinking_problem_icon_154732.png'
-            : 'https://cdn.icon-icons.com/icons2/2596/PNG/512/check_one_icon_155665.png',
-          iconSize: [25, 25],
-        })
-      }
-    >
+    <Marker position={position} icon={customMarkerIcon(user.photoUrl)}>
       <PopUpWithLocation
         user={user}
         event={event}

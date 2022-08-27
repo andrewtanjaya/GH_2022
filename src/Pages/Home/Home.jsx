@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.scss';
 import { useMapEvents } from 'react-leaflet/hooks';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle } from 'react-leaflet';
 
 import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
@@ -38,10 +38,15 @@ function LocationMarker({ eventMarker, user }) {
     map.locate();
   }, []);
 
+  const fillBlueOptions = { fillColor: 'blue' };
+
   return position === null ? (
     <></>
   ) : (
-    <AddMarker user={user} event={eventMarker} position={position} />
+    <>
+      <Circle center={position} pathOptions={fillBlueOptions} radius={200} />
+      <AddMarker user={user} event={eventMarker} position={position} />
+    </>
   );
 }
 
@@ -102,7 +107,6 @@ export default function Home() {
     .catch((err) => console.log('failed: ', err));
 
   const sendPush = () => {
-
     const url = 'https://fcm.googleapis.com/fcm/send';
 
     fetch(url, {
@@ -175,7 +179,9 @@ export default function Home() {
         {loading ? (
           <></>
         ) : (
-          <LocationMarker user={currentUser ? currentUser[0] : null} />
+          <>
+            <LocationMarker user={currentUser ? currentUser[0] : null} />
+          </>
         )}
 
         {loadingAllUser ? (
@@ -195,8 +201,6 @@ export default function Home() {
           })
         )}
       </MapContainer>
-
-      <SignOutBtn />
       <button onClick={GetCurrentLocation}>Get Current Location</button>
     </div>
   );
