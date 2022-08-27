@@ -5,30 +5,33 @@ import { addEvent } from '../../Database';
 import SOSBtn from '../../Components/SOSBtn/SOSBtn';
 import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT } from '../../Constants';
 import { sendPush } from '../../Utils/Helper';
+import './SOSForm.scss';
+import { MdClose } from 'react-icons/md';
+import { BsCheckCircleFill } from 'react-icons/bs';
 
 const data = [
   {
     title: 'There is someone faint',
-    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde or doctor is required.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde is required.',
     type: FAINT,
   },
   {
     title: 'There is robbery in my area',
-    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde or doctor is required.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde is required.',
     type: ROBBERY,
   },
   {
     title: 'Car accident happened',
-    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde or doctor is required.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde is required.',
     type: CAR_ACCIDENT,
   },
   {
     title: 'Fire breakout',
-    imgUrl: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
-    description: 'Someone with first aid knowlegde or doctor is required.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/136/136300.png',
+    description: 'Someone with first aid knowlegde is required.',
     type: FIRE_BREAKOUT,
   },
 ];
@@ -60,7 +63,6 @@ export default function SOSForm({ nearbyTokens }) {
 
   const onChange = (e) => {
     setDescription(e.target.value);
-    console.log(description);
   };
 
   return (
@@ -71,30 +73,48 @@ export default function SOSForm({ nearbyTokens }) {
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        className="sos-form"
+        centered
+        closeIcon={<MdClose size={'12pt'} />}
+        okText="Send"
       >
-        <p>{description}</p>
+        <Input
+          placeholder="Custom SOS Alert"
+          allowClear
+          onChange={onChange}
+          className="custom-input"
+        />
         <List
-          itemLayout="horizontal"
+          itemLayout="vertical"
           dataSource={data}
+          size="small"
           renderItem={(item) => (
             <List.Item
               onClick={() => {
                 setDescription(item.type);
               }}
+              className={`sos-list-item ${
+                description === item.type ? 'active' : ''
+              }`}
+              extra={
+                description === item.type ? (
+                  <BsCheckCircleFill
+                    style={{ marginLeft: '0.05rem' }}
+                    fontSize={'14pt'}
+                    color={'#1890ff'}
+                  />
+                ) : (
+                  <></>
+                )
+              }
             >
               <List.Item.Meta
-                avatar={<Avatar src={item.imgUrl} />}
+                avatar={<Avatar src={item.icon} />}
                 title={item.title}
                 description={item.description}
               />
             </List.Item>
           )}
-        />
-        OR
-        <Input
-          placeholder="input with clear icon"
-          allowClear
-          onChange={onChange}
         />
       </Modal>
     </>
