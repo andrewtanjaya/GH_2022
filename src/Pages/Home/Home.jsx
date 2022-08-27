@@ -43,7 +43,7 @@ function LocationMarker({ eventMarker, user }) {
     map.locate();
   }, []);
 
-  const fillBlueOptions = { fillColor: 'blue' };
+  const fillGreenOptions = { color: '#20ff9c' };
 
   return position === null ? (
     <></>
@@ -51,10 +51,15 @@ function LocationMarker({ eventMarker, user }) {
     <>
       <Circle
         center={position}
-        pathOptions={fillBlueOptions}
+        pathOptions={fillGreenOptions}
         radius={NOTIFICATION_RADIUS}
       />
-      <AddMarker user={user} event={eventMarker} position={position} />
+      <AddMarker
+        user={user}
+        event={eventMarker}
+        position={position}
+        isCurrentUser={true}
+      />
     </>
   );
 }

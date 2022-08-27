@@ -5,11 +5,7 @@ import { deleteEvent, updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 
-// function MarkerIcon() {
-//   return
-// }
-
-export default function AddMarker({ event, position, user }) {
+export default function AddMarker({ event, position, user, isCurrentUser }) {
   /*
 	description: string
 	position : {
@@ -17,7 +13,6 @@ export default function AddMarker({ event, position, user }) {
 	 	lng: 106.790108,
 	 }
 	*/
-
   const dismissEvent = () => {
     const currentUid = sessionStorage.getItem('uid');
     if (currentUid === event.uid) {
@@ -57,7 +52,7 @@ export default function AddMarker({ event, position, user }) {
       position={position}
       icon={
         user
-          ? UserMarkerIcon({ url: user.photoUrl })
+          ? UserMarkerIcon({ url: user.photoUrl, isCurrentUser: isCurrentUser })
           : UserMarkerIcon({ url: './assets/event.png' })
       }
     >
