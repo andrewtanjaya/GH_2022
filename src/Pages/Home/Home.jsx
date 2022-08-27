@@ -109,29 +109,35 @@ export default function Home() {
 
   useEffect(() => {
     if (allUser && currentUser) {
-      setNearbyUser(allUser.filter(isBetweenRadiusAndNotCurrentUser));
-      setNearbyToken(
-        nearbyUser.map((user) => {
-          return user.token;
+      setNearbyUser(
+        allUser.filter((u) => {
+          return isBetweenRadius(u) && u.uid !== currentUser[0].uid;
         }),
       );
+      let tok = nearbyUser.map((user) => {
+        return user.token;
+      });
+      tok = tok.filter((u) => {
+        return u !== '' ;
+      });
+      setNearbyToken(tok);
     }
   }, [allUser]);
 
   useEffect(() => {
     if (events && currentUser) {
-      setNearbyEvent(events.filter(isBetweenRadiusAndNotCurrentUser));
+      setNearbyEvent(events.filter(isBetweenRadius));
     }
   }, [events]);
 
-  const isBetweenRadiusAndNotCurrentUser = (u) => {
+  const isBetweenRadius = (u) => {
     return (
       getDistanceFromLatLonInM(
         u.latitude,
         u.longitude,
         currentUser[0].latitude,
         currentUser[0].longitude,
-      ) <= NOTIFICATION_RADIUS && u.uid !== currentUser[0].uid
+      ) <= NOTIFICATION_RADIUS 
     );
   };
 
