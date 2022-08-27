@@ -24,11 +24,9 @@ export default function SOSForm() {
 
   const triggerSOS = () => {
     let uid = sessionStorage.getItem("uid")
-    let latlng = sessionStorage.getItem("position")
-    console.log(JSON.stringify(latlng))
-    console.log(latlng["lat"])
-    console.log(latlng["lng"])
-    // addEvent(new Event(uid, "SOS", description,latlng.lng, latlng.lat,[]));
+    let long = sessionStorage.getItem("longitude")
+    let lat = sessionStorage.getItem("latitude")
+    addEvent(new Event(uid, "SOS", description,long, lat,[]));
   };
 
   const showModal = () => {
