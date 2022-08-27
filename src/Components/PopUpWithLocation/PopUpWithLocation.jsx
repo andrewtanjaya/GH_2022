@@ -1,4 +1,11 @@
 import { Popup } from 'react-leaflet';
+import { IoLocationSharp } from 'react-icons/io5';
+import './CurrentUserPopUp.scss';
+import { Button, Tooltip } from 'antd';
+
+function generateGoogleMapUrl({ position }) {
+  return `${process.env.REACT_APP_GOOGLE_MAP_URL}${position['lat']}+${position['lng']}`;
+}
 
 function PopUpDescription({ event, user }) {
   if (event) {
@@ -33,6 +40,32 @@ function ActionButton({ acceptCallback, dismissCallback, event }) {
   }
 }
 
+function CurrentUserPopUp({ user, position }) {
+  return (
+    <Popup className="request-popup">
+      <div className="popup-container">
+        <div className="popup-user-avatar">
+          <img
+            src={user.photoUrl}
+            alt="user"
+            className="popup-user-avatar-img"
+          />
+        </div>
+        <div className="popup-user-name">Hi {user.name} !</div>
+        <Tooltip title="View Location">
+          <Button
+            className="popup-user-location-btn"
+            icon={<IoLocationSharp />}
+            size="small"
+            href={generateGoogleMapUrl({ position })}
+            target="_blank"
+          />
+        </Tooltip>
+      </div>
+    </Popup>
+  );
+}
+
 export default function PopUpWithLocation({
   user,
   event,
@@ -40,9 +73,22 @@ export default function PopUpWithLocation({
   acceptCallback,
   dismissCallback,
 }) {
+  if (user) {
+    if (user.uid === sessionStorage.getItem('uid')) {
+      return <CurrentUserPopUp user={user} position={position} />;
+      // return <div>Your Current Location</div>;
+    }
+    return <div>{user.name}</div>;
+  }
+
   return (
     <Popup>
-      <PopUpDescription event={event} user={user} />
+      <div className="popup-container">
+        {/* <div>
+          <img src={user.photoUrl} referrerpolicy="no-referrer" />
+        </div> */}
+      </div>
+      {/* <PopUpDescription event={event} user={user} />
       <div>
         {event ? (
           <div>
@@ -62,7 +108,7 @@ export default function PopUpWithLocation({
         >
           See Location
         </a>
-      </div>
+      </div> */}
     </Popup>
   );
 }
