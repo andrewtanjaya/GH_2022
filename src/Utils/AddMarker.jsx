@@ -38,7 +38,6 @@ export default function AddMarker({
         break;
       }
     }
-
     let newAccept = { uid: currentUid, photoUrl: currentUser[0].photoUrl };
     if (event) {
       if (currentUid !== event.uid) {

@@ -3,12 +3,18 @@ import { Avatar, Button, Modal, List, Input } from 'antd';
 import { Event } from '../../Model/Event';
 import { addEvent, getEventByUID } from '../../Database';
 import SOSBtn from '../../Components/SOSBtn/SOSBtn';
-import { FAINT, ROBBERY, CAR_ACCIDENT, FIRE_BREAKOUT } from '../../Constants';
+import {
+  FAINT,
+  ROBBERY,
+  CAR_ACCIDENT,
+  FIRE_BREAKOUT,
+  CUSTOM,
+  DEFAULT_EVENT_TITLE,
+} from '../../Constants';
 import { sendPush } from '../../Utils/Helper';
 import './SOSForm.scss';
 import { MdClose } from 'react-icons/md';
 import { BsCheckCircleFill } from 'react-icons/bs';
-import { DEFAULT_EVENT_TITLE, CUSTOM } from '../../Constants';
 
 const data = [
   {
