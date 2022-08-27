@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Home.scss';
 import { useMapEvents } from 'react-leaflet/hooks';
 
-import { MapContainer, TileLayer, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle, Marker } from 'react-leaflet';
+import { divIcon } from 'leaflet';
 
 import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
@@ -43,8 +44,7 @@ function LocationMarker({ eventMarker, user }) {
     map.locate();
   }, []);
 
-  const fillGreenOptions = { color: '#20ff9c' };
-
+  const fillGreenOptions = { color: 'rgba(32, 255, 156, 0.5)' };
   return position === null ? (
     <></>
   ) : (
@@ -217,6 +217,7 @@ export default function Home() {
                   lat: event.latitude,
                   lng: event.longitude,
                 }}
+                isEvent={true}
               />
             ) : (
               <></>

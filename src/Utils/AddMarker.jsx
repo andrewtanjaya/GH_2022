@@ -4,8 +4,15 @@ import PopUpWithLocation from '../Components/PopUpWithLocation/PopUpWithLocation
 import { deleteEvent, updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
+import getEventIcon from '../Utils/GetEventIcon';
 
-export default function AddMarker({ event, position, user, isCurrentUser }) {
+export default function AddMarker({
+  event,
+  position,
+  user,
+  isCurrentUser,
+  isEvent,
+}) {
   /*
 	description: string
 	position : {
@@ -52,8 +59,17 @@ export default function AddMarker({ event, position, user, isCurrentUser }) {
       position={position}
       icon={
         user
-          ? UserMarkerIcon({ url: user.photoUrl, isCurrentUser: isCurrentUser })
-          : UserMarkerIcon({ url: './assets/event.png' })
+          ? UserMarkerIcon({
+              url: user.photoUrl,
+              isCurrentUser: isCurrentUser,
+              isEvent: false,
+            })
+          : UserMarkerIcon({
+              url: getEventIcon({
+                type: event.type,
+              }),
+              isEvent: true,
+            })
       }
     >
       <PopUpWithLocation
