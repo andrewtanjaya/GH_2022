@@ -24,7 +24,7 @@ function deg2rad(deg) {
 
 export const sendPush = (deviceTokens, event) => {
   console.log('send push to', deviceTokens);
-  console.log("event", event)
+  console.log('event', event);
   const url = 'https://fcm.googleapis.com/fcm/send';
 
   fetch(url, {

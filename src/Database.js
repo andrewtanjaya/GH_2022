@@ -55,7 +55,7 @@ export const getAllUsers = async () => {
 };
 
 export const addEvent = async (newEvent) => {
-    console.log(JSON.stringify(newEvent))
+  console.log(JSON.stringify(newEvent));
   await setDoc(doc(eventRef, newEvent.uid), Object.assign({}, newEvent));
 };
 

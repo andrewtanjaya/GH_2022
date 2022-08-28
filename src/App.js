@@ -26,12 +26,16 @@ function App() {
       else navigate('/login');
     }
   }, [user]);
-  const antIcon = <LoadingOutlined style={{ fontSize: 32, color : "black" }} spin />;
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 32, color: 'black' }} spin />
+  );
 
   return (
     <>
       {loading ? (
-        <div className='loading-spinner'><Spin indicator={antIcon} /></div>
+        <div className="loading-spinner">
+          <Spin indicator={antIcon} />
+        </div>
       ) : (
         <Routes>
           <Route path="/" element={<Home />} />

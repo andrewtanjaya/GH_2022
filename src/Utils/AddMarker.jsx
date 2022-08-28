@@ -5,6 +5,7 @@ import { deleteEvent, updateAccepted } from '../Database';
 
 import UserMarkerIcon from '../Components/UserMarkerIcon/UserMarkerIcon';
 import getEventIcon from '../Utils/GetEventIcon';
+import { openNotification } from '../Utils/OpenNotification';
 
 export default function AddMarker({
   event,
@@ -24,8 +25,15 @@ export default function AddMarker({
     const currentUid = currentUser[0].uid;
     if (currentUid === event.uid) {
       deleteEvent(currentUid);
+      openNotification({
+        type: 'success',
+        message: 'Event dismissed !',
+      });
     } else {
-      alert('Cannot dismiss others event');
+      openNotification({
+        type: 'error',
+        message: 'Cannot dismiss others event',
+      });
     }
   };
   const acceptEvent = (e) => {
@@ -45,8 +53,15 @@ export default function AddMarker({
           if (!found) {
             event.accepted_uids.push(newAccept);
             updateAccepted(event.uid, event.accepted_uids);
+            openNotification({
+              type: 'success',
+              message: 'Event Accepted !',
+            });
           } else {
-            alert('You have accepted this event');
+            openNotification({
+              type: 'error',
+              message: 'You have accepted this event',
+            });
           }
         } else {
           if (event.accepted_uids) {
@@ -58,7 +73,10 @@ export default function AddMarker({
           updateAccepted(event.uid, event.accepted_uids);
         }
       } else {
-        alert('Cannot accept your own event');
+        openNotification({
+          type: 'error',
+          message: 'Cannot accept your own event',
+        });
       }
     }
   };

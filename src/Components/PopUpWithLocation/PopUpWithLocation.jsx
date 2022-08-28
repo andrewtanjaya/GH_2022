@@ -167,8 +167,6 @@ function EventPopUp({ event, user, acceptCallback, dismissCallback }) {
   );
 }
 
-// function OtherPopUp()
-
 export default function PopUpWithLocation({
   user,
   event,

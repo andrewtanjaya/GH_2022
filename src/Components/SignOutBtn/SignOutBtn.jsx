@@ -1,7 +1,8 @@
 import { updateToken } from '../../Database';
 import { auth } from '../../Firebase';
-import {IoCloseOutline} from 'react-icons/io5'
-import './SignOutBtn.scss'
+import { MdClose } from 'react-icons/md';
+import './SignOutBtn.scss';
+import { Tooltip } from 'antd';
 
 export default function SignOutBtn({ currentUser }) {
   const signOut = () => {
@@ -14,9 +15,11 @@ export default function SignOutBtn({ currentUser }) {
   };
   return (
     auth.currentUser && (
-      <div className="signout-btn">
-        <IoCloseOutline color={"#ff4d4d"} size={'40px'} onClick={signOut} />
-      </div>
+      <Tooltip title="Sign Out">
+        <div className="signout-btn">
+          <MdClose color={'#ff4d4d'} size={'40px'} onClick={signOut} />
+        </div>
+      </Tooltip>
     )
   );
 }
