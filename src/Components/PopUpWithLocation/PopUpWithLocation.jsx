@@ -28,9 +28,9 @@ function CurrentUserPopUp({ user, position }) {
             icon={<IoLocationSharp />}
             size="small"
             type="link"
-            onClick={() => {
-              window.open(generateGoogleMapUrl({ position }));
-            }}
+            rel="noreferrer"
+            href={generateGoogleMapUrl({ position })}
+            target="_blank"
           />
         </Tooltip>
       </div>
@@ -108,16 +108,14 @@ function EventPopUp({ event, user, acceptCallback, dismissCallback }) {
               size="small"
               className="location-button"
               type="link"
-              onClick={() => {
-                window.open(
-                  generateGoogleMapUrl({
-                    position: {
-                      lat: event.latitude,
-                      lng: event.longitude,
-                    },
-                  }),
-                );
-              }}
+              rel="noreferrer"
+              href={generateGoogleMapUrl({
+                position: {
+                  lat: event.latitude,
+                  lng: event.longitude,
+                },
+              })}
+              target="_blank"
             />
           </Tooltip>
           {event.uid !== sessionStorage.getItem('uid') ? (
