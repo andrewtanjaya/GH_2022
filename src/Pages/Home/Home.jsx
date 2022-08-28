@@ -205,6 +205,7 @@ export default function Home() {
         id="map"
         center={[-6.17511, 106.865036]}
         zoom={24}
+        minZoom={10}
         scrollWheelZoom={true}
       >
         <TileLayer
