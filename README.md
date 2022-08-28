@@ -19,11 +19,15 @@ How to try our app features
 ![image](https://user-images.githubusercontent.com/54787376/187055908-07784573-81d2-4ee6-bf1a-d2835bdb12a8.png)
 
 For User 1
+
 lat : -6.173621
+
 long :106.786044
 
 For User 2
+
 lat : -6.173822814668621
+
 long : 106.78345092103454
 
 4. Open our app and login with google account
@@ -47,23 +51,23 @@ User outside radius wont be able to see this
 
 ![image](https://user-images.githubusercontent.com/54787376/187055953-cf3739a1-4d38-4f08-bde5-be95edbc884e.png)
 
-9. All user within radius can interact with that event
+8. All user within radius can interact with that event
 
 ![image](https://user-images.githubusercontent.com/54787376/187055961-305e214b-01d5-4a07-bab0-cd70970634bc.png)
 
-11. If user accepted the event, then the user's data will be recorded to the event
+9. If user accepted the event, then the user's data will be recorded to the event
 
 ![image](https://user-images.githubusercontent.com/54787376/187055964-1058a675-ac49-4bc3-86bb-3932183e8f5c.png)
 
-13. User also can use "view location" features to get the direction to the event location
+10. User also can use "view location" features to get the direction to the event location
 
 ![image](https://user-images.githubusercontent.com/54787376/187055968-c55bd933-4c9c-4ff3-b3ec-e603db8c8a52.png)
 
-15. For owner of the event, you can dismiss the event by pressing dismiss button
+11. For owner of the event, you can dismiss the event by pressing dismiss button
 
 ![image](https://user-images.githubusercontent.com/54787376/187055973-168e053f-02b2-4b65-8e60-f172c16a229a.png)
 
-17. Last but not least, if user dont want to receive any notification in background, user can signout from our application by pressing X button in upper right corner of  the screen
+12. Last but not least, if user dont want to receive any notification in background, user can signout from our application by pressing X button in upper right corner of  the screen
 
 That's it , if you have any questions regarding this app, feel free to contact us
 Thankyou..
