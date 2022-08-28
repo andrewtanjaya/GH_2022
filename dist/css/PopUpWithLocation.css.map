@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "",
-    "sources": [
-        "../../src/Components/PopUpWithLocation/PopUpWithLocation.scss"
-    ],
-    "names": [],
-    "file": "PopUpWithLocation.css"
-}
