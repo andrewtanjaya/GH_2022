@@ -1,6 +1,7 @@
 import { divIcon } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { NOTIFICATION_RADIUS } from '../../Constants';
+import { Tooltip } from 'antd';
 
 import './UserMarkerIcon.scss';
 
@@ -18,12 +19,14 @@ export default function UserMarkerIcon({ url, isCurrentUser, isEvent }) {
   if (isEvent) {
     const currentUserMarkup = () =>
       renderToStaticMarkup(
-        <img
-          src={url}
-          className="event-icon-img"
-          referrerPolicy="no-referrer"
-          alt="event"
-        />,
+        <div className="event-icon">
+          <img
+            src={url}
+            className="event-icon-img"
+            referrerPolicy="no-referrer"
+            alt="event"
+          />
+        </div>,
       );
 
     return divIcon({

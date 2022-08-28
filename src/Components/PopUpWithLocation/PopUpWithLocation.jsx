@@ -88,7 +88,7 @@ function EventPopUp({ event, user, acceptCallback, dismissCallback }) {
         <div className="popup-header">
           <div className="popup-event-avatar">
             <img
-              src={getEventIcon(event.type)}
+              src={getEventIcon({ type: event.type })}
               alt="user"
               className="popup-event-avatar-img"
             />
