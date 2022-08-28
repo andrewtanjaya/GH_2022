@@ -100,3 +100,11 @@
   border: 1px solid #8c8c8c;
   border-radius: 4px !important;
 }
+
+.popup-event-accepted-more {
+  @include flex-center();
+  background-color: #f0f0f0;
+  color: #595959;
+  font-weight: bold;
+  font-size: 9pt;
+}

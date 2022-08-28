@@ -95,15 +95,23 @@ function EventPopUp({ event, user, acceptCallback, dismissCallback }) {
           </div>
 
           <div className="popup-event-accepted-avatar-container">
-            {event.accepted_uids.map((user) => {
-              return (
-                <img
-                  src={user.photoUrl}
-                  alt="accepted-user"
-                  className="popup-event-avatar-img  popup-event-accepted-avatar"
-                />
-              );
+            {event.accepted_uids.map((user, idx) => {
+              if (idx < 3)
+                return (
+                  <img
+                    src={user.photoUrl}
+                    alt="accepted-user"
+                    className="popup-event-avatar-img  popup-event-accepted-avatar"
+                  />
+                );
             })}
+            {event.accepted_uids.length - 3 > 0 ? (
+              <div className="popup-event-avatar-img  popup-event-accepted-avatar popup-event-accepted-more">
+                +{event.accepted_uids.length - 3}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div className="popup-content">
