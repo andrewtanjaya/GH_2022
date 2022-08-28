@@ -118,7 +118,7 @@ export default function Home() {
         return user.token;
       });
       tok = tok.filter((u) => {
-        return u !== '' ;
+        return u !== '';
       });
       setNearbyToken(tok);
     }
@@ -137,7 +137,7 @@ export default function Home() {
         u.longitude,
         currentUser[0].latitude,
         currentUser[0].longitude,
-      ) <= NOTIFICATION_RADIUS 
+      ) <= NOTIFICATION_RADIUS
     );
   };
 
@@ -205,6 +205,7 @@ export default function Home() {
         id="map"
         center={[-6.17511, 106.865036]}
         zoom={24}
+        minZoom={10}
         scrollWheelZoom={true}
       >
         <TileLayer

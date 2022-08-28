@@ -19,7 +19,18 @@
   //   background-color: cyan;
 }
 
-.popup-user {
+.popup-event {
+  flex-direction: column;
+  align-items: flex-start;
+
+  .popup-header {
+    @include flex-center();
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+    justify-content: space-between;
+  }
+
   &-avatar {
     @include flex-center();
     position: relative;
@@ -37,9 +48,19 @@
     }
   }
 
-  &-name {
+  &-title {
     font-weight: bold;
+    font-size: 12pt;
+    color: black;
   }
+
+  &-description {
+    color: #8c8c8c;
+  }
+
+  // &-title {
+  //   font-weight: bold;
+  // }
 
   &-location-btn {
     @include remove-deafult-btn-look();
@@ -53,4 +74,37 @@
 .leaflet-popup-content-wrapper {
   //   border-radius: 0px;
   padding: 0.2rem;
+}
+
+.popup-event-accepted-avatar-container {
+  @include flex-center();
+  flex-direction: row;
+}
+
+.popup-event-accepted-avatar {
+  width: 28px;
+  height: 28px;
+  border: 1px solid white;
+}
+
+.popup-footer {
+  @include flex-center();
+  position: relative;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.location-button {
+  @include flex-center();
+  border: 1px solid #8c8c8c;
+  border-radius: 4px !important;
+}
+
+.popup-event-accepted-more {
+  @include flex-center();
+  background-color: #f0f0f0;
+  color: #595959;
+  font-weight: bold;
+  font-size: 9pt;
 }

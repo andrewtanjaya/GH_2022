@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Button, Modal, List, Input } from 'antd';
+import { Avatar, Button, Modal, List, Input, Alert, notification } from 'antd';
 import { Event } from '../../Model/Event';
 import { addEvent, getEventByUID } from '../../Database';
 import SOSBtn from '../../Components/SOSBtn/SOSBtn';
@@ -23,6 +23,7 @@ import { sendPush } from '../../Utils/Helper';
 import './SOSForm.scss';
 import { MdClose } from 'react-icons/md';
 import { BsCheckCircleFill } from 'react-icons/bs';
+import { openNotification } from '../../Utils/OpenNotification';
 
 const data = [
   {
@@ -68,8 +69,15 @@ export default function SOSForm({ nearbyTokens }) {
       if (e === null || e === {}) {
         addEvent(event);
         sendPush(nearbyTokens, new Event(uid, t, title, desc, long, lat, []));
+        openNotification({
+          type: 'success',
+          message: 'Event created !',
+        });
       } else {
-        alert('Dismiss ongoing event first!');
+        return openNotification({
+          type: 'error',
+          message: 'Dismiss ongoing event first !',
+        });
       }
     });
   };
