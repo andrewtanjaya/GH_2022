@@ -38,35 +38,19 @@
   justify-content: center;
   border-radius: 50%;
   height: 48px;
-  transform: translate(-50%, -50%);
   z-index: 10 !important;
+  background-color: white;
 }
 
-// .current-user-pulsating-circle {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: #20ff9c;
-//   border-radius: 50%;
-//   animation: pulse-green 2s infinite;
-//   //   min-width: 500px;
-//   //   min-height: 500px;
-//   opacity: 0.2;
-// }
-
-// @keyframes pulse-green {
-//   0% {
-//     transform: scale(0.9) translateX(-50%) translateY(-50%);
-//     box-shadow: 0 0 0 0 rgba(32, 255, 156, 0.7);
-//   }
-
-//   70% {
-//     transform: scale(1) translateX(-50%) translateY(-50%);
-//     box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
-//   }
-
-//   100% {
-//     transform: scale(0.9) translateX(-50%) translateY(-50%);
-//     box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
-//   }
-// }
+.event-icon {
+  width: 56px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 56px;
+  z-index: 10 !important;
+  background-color: black;
+  transform: translate(-50%, -50%);
+}
