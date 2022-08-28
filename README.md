@@ -30,7 +30,7 @@ lat : -6.173822814668621
 
 long : 106.78345092103454
 
-4. Open our app and login with google account
+4. Open our app and login with google account [make sure notification are enabled for this site, to enable notification: https://support.freshchat.com/en/support/solutions/articles/50000001049-how-to-enable-push-notifications-in-your-browser-chrome-safari-firefox-edge]
 5. User 1 and 2 should be able to see each other in map, because they are in 500m radius so they can interact with each other
 
 ![image](https://user-images.githubusercontent.com/54787376/187055913-4ee70d75-2382-4b28-8b5e-aef3ab25c088.png)
