@@ -10,26 +10,6 @@ function generateGoogleMapUrl({ position }) {
   return `${process.env.REACT_APP_GOOGLE_MAP_URL}${position['lat']}+${position['lng']}`;
 }
 
-function ActionButton({ acceptCallback, dismissCallback, event }) {
-  if (event.uid !== sessionStorage.getItem('uid')) {
-    return (
-      <div>
-        <button type="submit" onClick={acceptCallback}>
-          Accept
-        </button>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <button type="submit" onClick={dismissCallback}>
-          Dismiss
-        </button>
-      </div>
-    );
-  }
-}
-
 function CurrentUserPopUp({ user, position }) {
   return (
     <Popup>
@@ -47,8 +27,10 @@ function CurrentUserPopUp({ user, position }) {
             className="popup-user-location-btn"
             icon={<IoLocationSharp />}
             size="small"
-            href={generateGoogleMapUrl({ position })}
-            target="_blank"
+            type="link"
+            onClick={() => {
+              window.open(generateGoogleMapUrl({ position }));
+            }}
           />
         </Tooltip>
       </div>
@@ -125,13 +107,17 @@ function EventPopUp({ event, user, acceptCallback, dismissCallback }) {
               icon={<IoLocationSharp />}
               size="small"
               className="location-button"
-              href={generateGoogleMapUrl({
-                position: {
-                  lat: event.latitude,
-                  lng: event.longitude,
-                },
-              })}
-              target="_blank"
+              type="link"
+              onClick={() => {
+                window.open(
+                  generateGoogleMapUrl({
+                    position: {
+                      lat: event.latitude,
+                      lng: event.longitude,
+                    },
+                  }),
+                );
+              }}
             />
           </Tooltip>
           {event.uid !== sessionStorage.getItem('uid') ? (
