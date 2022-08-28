@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+How to run GOTONG ROYONG
+1. Clone this repo
+2. Open terminal in repo directory
+3. Run `npm install`
+4. After that run `npm start`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+GOTONG ROYONG features :
+- Google Sign in
+- PWA (Progressive web apps)
+- Send new event notification to user in 500m radius
+- Only user inside radius can interact with event or other user
 
-## Available Scripts
+How to try our app features
+1. Open Google Chrome 
+2. F12 open dev tools > more tools > sensors (to mock location by longitude and latitude)
+3. Choose Location Other... and set Latitude and Longitude
 
-In the project directory, you can run:
+![image](https://user-images.githubusercontent.com/54787376/187055894-8c1705db-1766-42b0-b9c2-1caaebaa968c.png)
+![image](https://user-images.githubusercontent.com/54787376/187055908-07784573-81d2-4ee6-bf1a-d2835bdb12a8.png)
 
-### `npm start`
+For User 1
+lat : -6.173621
+long :106.786044
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+For User 2
+lat : -6.173822814668621
+long : 106.78345092103454
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. Open our app and login with google account
+5. User 1 and 2 should be able to see each other in map, because they are in 500m radius so they can interact with each other
 
-### `npm test`
+![image](https://user-images.githubusercontent.com/54787376/187055913-4ee70d75-2382-4b28-8b5e-aef3ab25c088.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If User 1 create new SOS event, User 2 should be able to see the event and receive notification (notification sometimes delayed, make sure to enable all notification permission before proceed to this step) and vice versa
 
-### `npm run build`
+When user 1 or 2 can see event, they can interact with the event by accepting the event or dismis the event
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+User outside radius wont be able to see this
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://user-images.githubusercontent.com/54787376/187055926-d370115b-c5ff-4537-bc4b-079ff9467e4e.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+6. To create new event, press red button in the bottom middle of the screen and choose what event you wanted to emit,  or you can make your custom one  [Take notes that every user only able to make 1 event, so before making another event your need to dismiss last event]
 
-### `npm run eject`
+![image](https://user-images.githubusercontent.com/54787376/187055933-562608ea-e60a-4e1e-9b0c-35e271bd9972.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+7. When new event emitted, all users within radius will be notified
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![image](https://user-images.githubusercontent.com/54787376/187055953-cf3739a1-4d38-4f08-bde5-be95edbc884e.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+9. All user within radius can interact with that event
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![image](https://user-images.githubusercontent.com/54787376/187055961-305e214b-01d5-4a07-bab0-cd70970634bc.png)
 
-## Learn More
+11. If user accepted the event, then the user's data will be recorded to the event
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![image](https://user-images.githubusercontent.com/54787376/187055964-1058a675-ac49-4bc3-86bb-3932183e8f5c.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+13. User also can use "view location" features to get the direction to the event location
 
-### Code Splitting
+![image](https://user-images.githubusercontent.com/54787376/187055968-c55bd933-4c9c-4ff3-b3ec-e603db8c8a52.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+15. For owner of the event, you can dismiss the event by pressing dismiss button
 
-### Analyzing the Bundle Size
+![image](https://user-images.githubusercontent.com/54787376/187055973-168e053f-02b2-4b65-8e60-f172c16a229a.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+17. Last but not least, if user dont want to receive any notification in background, user can signout from our application by pressing X button in upper right corner of  the screen
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+That's it , if you have any questions regarding this app, feel free to contact us
+Thankyou..
