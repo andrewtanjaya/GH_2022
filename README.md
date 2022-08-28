@@ -11,7 +11,7 @@ GOTONG ROYONG features :
 - Only user inside radius can interact with event or other user
 
 How to try our app features
-1. Open Google Chrome [MUST USE CHROME, SINCE FCM NOT SUPPORTED IN MOST OF OTHER BROWSER]
+1. Open Google Chrome [MUST USE CHROME, SINCE FCM NOT SUPPORTED IN MOST OF OTHER BROWSER, DONT USE INCOGNITO ALSO BECAUSE NOTIFICATION WONT ENABLED IF INCOGNITO]
 2. F12 open dev tools > more tools > sensors (to mock location by longitude and latitude)
 3. Choose Location Other... and set Latitude and Longitude
 
