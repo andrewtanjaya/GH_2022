@@ -55,17 +55,10 @@
 }
 
 .sos-btn-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
   width: 100px;
   height: 100px;
   margin: 0;
   padding: 0;
-  transform: translate(-48%, 0); // bottom: 72px;
-  left: 50%;
-  bottom: 80px;
   background-color: black;
   cursor: pointer;
 }
