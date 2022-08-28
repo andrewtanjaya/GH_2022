@@ -17,7 +17,7 @@ export default function SignOutBtn({ currentUser }) {
     auth.currentUser && (
       <Tooltip title="Sign Out">
         <div className="signout-btn">
-          <MdClose color={'#ff4d4d'} size={'40px'} onClick={signOut} />
+          <MdClose color={'#ff4d4d'} size={'32px'} onClick={signOut} />
         </div>
       </Tooltip>
     )

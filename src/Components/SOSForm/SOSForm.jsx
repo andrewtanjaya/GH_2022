@@ -101,7 +101,7 @@ export default function SOSForm({ nearbyTokens }) {
   };
 
   return (
-    <>
+    <div className='form-container'>
       <SOSBtn callback={showModal} />
 
       <Modal
@@ -151,6 +151,6 @@ export default function SOSForm({ nearbyTokens }) {
           )}
         />
       </Modal>
-    </>
+    </div>
   );
 }
