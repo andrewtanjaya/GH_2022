@@ -9,7 +9,7 @@ import SignOutBtn from '../../Components/SignOutBtn/SignOutBtn';
 
 import AddMarker from '../../Utils/AddMarker';
 
-import { eventRef, onMessageListener, usersRef } from '../../Firebase';
+import { auth, eventRef, fetchToken, onMessageListener, usersRef } from '../../Firebase';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 
@@ -20,10 +20,11 @@ import {
 } from '../../Constants';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { query, where } from 'firebase/firestore';
-import { updatePosition } from '../../Database';
+import { updatePosition, updateToken } from '../../Database';
 import { getDistanceFromLatLonInM } from '../../Utils/Helper';
 import SOSForm from '../../Components/SOSForm/SOSForm';
 import { Space, message, notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function LocationMarker({ eventMarker, user }) {
   const [position, setPosition] = useState(null);
@@ -34,7 +35,6 @@ function LocationMarker({ eventMarker, user }) {
     locationfound(e) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
-
       sessionStorage.setItem('longitude', e.latlng.lng);
       sessionStorage.setItem('latitude', e.latlng.lat);
       updatePosition(sessionStorage.getItem('uid'), e.latlng);
@@ -42,6 +42,7 @@ function LocationMarker({ eventMarker, user }) {
   });
 
   useEffect(() => {
+    fetchToken();
     map.locate();
   }, []);
 
@@ -74,6 +75,7 @@ export default function Home() {
   const [nearbyEvent, setNearbyEvent] = useState([]);
   const [nearbyToken, setNearbyToken] = useState([]);
   const [network, setNetwork] = useState(1);
+  const navigate = useNavigate();
 
   const q = query(usersRef, where('uid', '==', sessionStorage.getItem('uid')));
   const [currentUser, loading, error] = useCollectionData(q, {
@@ -87,8 +89,18 @@ export default function Home() {
   });
 
   useEffect(() => {
+    console.log("page load")
     window.addEventListener('online', () => networkOnline());
     window.addEventListener('offline', () => errorNetwork());
+    if(sessionStorage.getItem('uid') == null) {
+      sessionStorage.removeItem('longitude');
+      sessionStorage.removeItem('latitude');
+      sessionStorage.removeItem('uid');
+      sessionStorage.removeItem('token', currentUser);
+      auth.signOut();
+      navigate('/login')
+    }
+    
   }, []);
 
   const networkOnline = () => {
@@ -149,7 +161,13 @@ export default function Home() {
   }, [error]);
 
   useEffect(() => {
-    if (currentUser) localStorage.setItem('user', currentUser);
+    if (currentUser) {
+      localStorage.setItem('user', currentUser);
+      if(sessionStorage.getItem("token") != null){
+        console.log("update tioken")
+        updateToken(sessionStorage.getItem("token"), currentUser[0]);
+      }
+    }
   }, [currentUser]);
 
   onMessageListener()
