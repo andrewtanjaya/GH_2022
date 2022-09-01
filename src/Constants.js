@@ -9,7 +9,7 @@ export const CAR_ACCIDENT = 'car accident';
 export const FIRE_BREAKOUT = 'fire breakout';
 export const CUSTOM = 'custom';
 
-export const DEFAULT_EVENT_TITLE = 'HELLO!';
+export const DEFAULT_EVENT_TITLE = 'HELP!';
 
 export const FAINT_ICON = './asset/faint-icon.png';
 export const ROBBERY_ICON = './asset/thief-icon.png';
