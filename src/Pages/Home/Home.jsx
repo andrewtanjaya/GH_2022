@@ -172,6 +172,13 @@ export default function Home() {
         console.log("update tioken")
         updateToken(sessionStorage.getItem("token"), currentUser[0]);
       }
+    }else if(loading === false && currentUser == null ){
+      sessionStorage.removeItem('longitude');
+      sessionStorage.removeItem('latitude');
+      sessionStorage.removeItem('uid');
+      sessionStorage.removeItem('token', currentUser);
+      auth.signOut();
+      navigate('/login')
     }
   }, [currentUser]);
 
