@@ -126,6 +126,11 @@ export default function Home() {
           return isBetweenRadius(u) && u.uid !== currentUser[0].uid;
         }),
       );
+    }
+  }, [allUser]);
+
+  useEffect(()=>{
+    if(nearbyUser){
       let tok = nearbyUser.map((user) => {
         return user.token;
       });
@@ -134,7 +139,7 @@ export default function Home() {
       });
       setNearbyToken(tok);
     }
-  }, [allUser]);
+  }, [nearbyUser])
 
   useEffect(() => {
     if (events && currentUser) {
